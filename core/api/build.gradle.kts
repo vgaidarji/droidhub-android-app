@@ -42,5 +42,7 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter)
     implementation(libs.okhttp)
+    implementation(libs.okhttp.loggingInterceptor)
+    implementation(libs.timber)
     implementation(libs.coroutines.core)
 }

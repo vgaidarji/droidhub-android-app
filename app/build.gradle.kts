@@ -56,6 +56,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtimeCompose)
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
+    implementation(libs.timber)
 
     implementation(libs.dagger)
     kapt(libs.dagger.compiler)
