@@ -11,22 +11,32 @@ import androidx.compose.ui.graphics.Color
 data class CustomColorsPalette(
     val avatarBackground: Color = Color.Unspecified,
     val avatarBorder: Color = Color.Unspecified,
+    val profileStatusBackground: Color = Color.Unspecified,
+    val profileStatusBorder: Color = Color.Unspecified,
 )
 
 val LightAvatarBackground: Color = Color.Gray
 val LightAvatarBorder: Color = Color.LightGray
+val LightProfileStatusBackground: Color = Color.White
+val LightProfileStatusBorder: Color = Color.LightGray
 
 val DarkAvatarBackground: Color = Color.Gray
 val DarkAvatarBorder: Color = Color.LightGray
+val DarkProfileStatusBackground: Color = Color.White
+val DarkProfileStatusBorder: Color = Color.LightGray
 
 val LightCustomColorsPalette = CustomColorsPalette(
     avatarBackground = LightAvatarBackground,
-    avatarBorder = LightAvatarBorder
+    avatarBorder = LightAvatarBorder,
+    profileStatusBackground = LightProfileStatusBackground,
+    profileStatusBorder = LightProfileStatusBorder
 )
 
 val DarkCustomColorsPalette = CustomColorsPalette(
     avatarBackground = DarkAvatarBackground,
-    avatarBorder = DarkAvatarBorder
+    avatarBorder = DarkAvatarBorder,
+    profileStatusBackground = DarkProfileStatusBackground,
+    profileStatusBorder = DarkProfileStatusBorder
 )
 
 val LocalCustomColorsPalette = staticCompositionLocalOf { CustomColorsPalette() }

@@ -40,10 +40,15 @@ fun ProfileScreen(modifier: Modifier = Modifier, uiState: ProfileUiState) {
     } else {
         Surface(modifier, color = MaterialTheme.colorScheme.background) {
             Column(
-                modifier.fillMaxSize().padding(8.dp),
+                modifier
+                    .fillMaxSize()
+                    .padding(8.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                ProfileAvatar(avatarUrl = uiState.gitHubUser.avatarUrl)
+                ProfileAvatar(
+                    avatarUrl = uiState.gitHubUser.avatarUrl,
+                    statusUrl = uiState.gitHubUser.avatarUrl
+                )
                 Text(uiState.gitHubUser.name, textAlign = TextAlign.Center)
             }
         }
@@ -51,7 +56,7 @@ fun ProfileScreen(modifier: Modifier = Modifier, uiState: ProfileUiState) {
 }
 
 @Composable
-fun ProfileAvatar(modifier: Modifier = Modifier, avatarUrl: String) {
+fun ProfileAvatar(modifier: Modifier = Modifier, avatarUrl: String, statusUrl: String) {
     Box(modifier = modifier.height(250.dp)) {
         AsyncImage(
             model = avatarUrl,
@@ -61,8 +66,27 @@ fun ProfileAvatar(modifier: Modifier = Modifier, avatarUrl: String) {
                 .size(250.dp)
                 .clip(CircleShape)
                 .background(MaterialTheme.customColorsPalette.avatarBackground)
-                .border(BorderStroke(2.dp, MaterialTheme.customColorsPalette.avatarBorder), CircleShape)
+                .border(
+                    BorderStroke(2.dp, MaterialTheme.customColorsPalette.avatarBorder),
+                    CircleShape
+                )
         )
+
+        Box(modifier = modifier.align(Alignment.BottomEnd).padding(vertical = 20.dp)) {
+            AsyncImage(
+                model = statusUrl,
+                contentDescription = stringResource(id = R.string.content_description_profile_status),
+                contentScale = ContentScale.Crop,
+                modifier = modifier
+                    .size(40.dp)
+                    .clip(CircleShape)
+                    .background(MaterialTheme.customColorsPalette.profileStatusBackground)
+                    .border(
+                        BorderStroke(2.dp, MaterialTheme.customColorsPalette.profileStatusBorder),
+                        CircleShape
+                    )
+            )
+        }
     }
 }
 
