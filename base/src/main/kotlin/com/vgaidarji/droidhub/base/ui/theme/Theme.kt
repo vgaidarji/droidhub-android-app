@@ -15,29 +15,19 @@ import androidx.compose.ui.platform.LocalContext
 private val DarkColorScheme = darkColorScheme(
     surface = Blue,
     onSurface = Navy,
-    primary = Navy,
+    primary = Color.Black,
     onPrimary = Chartreuse,
-    secondary = PurpleGrey80,
+    secondary = Color.LightGray,
     tertiary = Pink80
 )
 
 private val LightColorScheme = lightColorScheme(
     surface = Blue,
     onSurface = Color.White,
-    primary = LightBlue,
+    primary = Color.Black,
     onPrimary = Navy,
-    secondary = PurpleGrey40,
+    secondary = Color.LightGray,
     tertiary = Pink40
-
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
 )
 
 @Composable
@@ -66,6 +56,7 @@ fun DroidHubTheme(
     ) {
         MaterialTheme(
             colorScheme = colorScheme, // the MaterialTheme still uses the "normal" palette
+            typography = Typography,
             content = content
         )
     }
