@@ -1,8 +1,12 @@
 package com.vgaidarji.droidhub.api.di
 
+import com.apollographql.apollo3.ApolloClient
+import com.apollographql.apollo3.network.okHttpClient
 import com.vgaidarji.droidhub.api.ApiTokenInterceptor
 import com.vgaidarji.droidhub.api.GitHubUsersApi
 import com.vgaidarji.droidhub.api.GitHubUsersApiClient
+import com.vgaidarji.droidhub.api.GitHubUsersGraphQlApi
+import com.vgaidarji.droidhub.api.GitHubUsersGraphQlApiClient
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -24,6 +28,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 class NetworkModule {
   private val gitHubApiBaseUrl = "https://api.github.com/"
+  private val gitHubGraphQlApiBaseUrl = "https://api.github.com/graphql"
 
   @ExperimentalSerializationApi
   @Singleton
@@ -61,6 +66,21 @@ class NetworkModule {
   @Provides
   fun provideUserApi(retrofit: Retrofit): GitHubUsersApi {
     return GitHubUsersApiClient(retrofit)
+  }
+
+  @Singleton
+  @Provides
+  fun provideUserGraphQlApi(apolloClient: ApolloClient): GitHubUsersGraphQlApi {
+    return GitHubUsersGraphQlApiClient(apolloClient)
+  }
+
+  @Singleton
+  @Provides
+  fun provideApolloClient(okHttpClient: OkHttpClient): ApolloClient {
+    return ApolloClient.Builder()
+      .serverUrl(gitHubGraphQlApiBaseUrl)
+      .okHttpClient(okHttpClient)
+      .build();
   }
 
   private fun getHttpLoggingInterceptor(): HttpLoggingInterceptor {

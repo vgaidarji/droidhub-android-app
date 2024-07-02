@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.kotlinSerialization)
     id(libs.plugins.daggerHilt.get().pluginId)
     id(libs.plugins.kotlinKapt.get().pluginId)
+    alias(libs.plugins.apollo)
 }
 
 android {
@@ -32,6 +33,12 @@ android {
     }
 }
 
+apollo {
+    service("service") {
+        packageName.set("com.vgaidarji.droidhub.api")
+    }
+}
+
 dependencies {
     api(project(AppConfig.Modules.MODEL))
 
@@ -45,4 +52,6 @@ dependencies {
     implementation(libs.okhttp.loggingInterceptor)
     implementation(libs.timber)
     implementation(libs.coroutines.core)
+    implementation(libs.apollo.runtime)
+    implementation(libs.apollo.coroutines)
 }

@@ -41,6 +41,8 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     implementation(libs.coil)
 
+    implementation(libs.timber)
+
     kapt(libs.dagger.compiler)
     implementation(libs.dagger.hilt)
     kapt(libs.dagger.hilt.compiler)
