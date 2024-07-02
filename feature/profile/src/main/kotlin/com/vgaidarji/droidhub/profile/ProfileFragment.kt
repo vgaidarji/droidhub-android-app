@@ -1,6 +1,5 @@
 package com.vgaidarji.droidhub.profile
 
-import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.vgaidarji.droidhub.base.ui.theme.DroidHubTheme
 import com.vgaidarji.droidhub.model.GitHubUser
+import com.vgaidarji.droidhub.model.GitHubUserStatus
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -67,10 +67,18 @@ fun ProfileScreenUserPreview() {
         followingCount = 0
     )
 
+    val userStatus = GitHubUserStatus(
+        emoji = "",
+        emojiHtml = "<div>\uD83D\uDE80</div>", // 🚀
+        expiresAt = "",
+        limitedAvailability = "",
+        message = ""
+    )
+
     DroidHubTheme {
         ProfileScreen(
             modifier = Modifier.fillMaxSize(),
-            uiState = ProfileUiState(user, isLoading = false)
+            uiState = ProfileUiState(user, userStatus, isLoading = false)
         )
     }
 }

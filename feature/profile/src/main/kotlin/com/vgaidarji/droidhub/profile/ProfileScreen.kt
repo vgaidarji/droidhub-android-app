@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -20,8 +21,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.core.text.HtmlCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.vgaidarji.droidhub.base.ui.component.ProgressView
@@ -47,7 +50,7 @@ fun ProfileScreen(modifier: Modifier = Modifier, uiState: ProfileUiState) {
             ) {
                 ProfileAvatar(
                     avatarUrl = uiState.gitHubUser.avatarUrl,
-                    statusUrl = uiState.gitHubUser.avatarUrl
+                    statusEmojiHtml = uiState.gitHubUserStatus.emojiHtml
                 )
                 Text(uiState.gitHubUser.name, textAlign = TextAlign.Center)
             }
@@ -56,7 +59,7 @@ fun ProfileScreen(modifier: Modifier = Modifier, uiState: ProfileUiState) {
 }
 
 @Composable
-fun ProfileAvatar(modifier: Modifier = Modifier, avatarUrl: String, statusUrl: String) {
+fun ProfileAvatar(modifier: Modifier = Modifier, avatarUrl: String, statusEmojiHtml: String) {
     Box(modifier = modifier.height(250.dp)) {
         AsyncImage(
             model = avatarUrl,
@@ -72,11 +75,10 @@ fun ProfileAvatar(modifier: Modifier = Modifier, avatarUrl: String, statusUrl: S
                 )
         )
 
-        Box(modifier = modifier.align(Alignment.BottomEnd).padding(vertical = 20.dp)) {
-            AsyncImage(
-                model = statusUrl,
-                contentDescription = stringResource(id = R.string.content_description_profile_status),
-                contentScale = ContentScale.Crop,
+        Box(
+            modifier = modifier.align(Alignment.BottomEnd).padding(vertical = 20.dp)
+        ) {
+            Box(
                 modifier = modifier
                     .size(40.dp)
                     .clip(CircleShape)
@@ -84,8 +86,17 @@ fun ProfileAvatar(modifier: Modifier = Modifier, avatarUrl: String, statusUrl: S
                     .border(
                         BorderStroke(2.dp, MaterialTheme.customColorsPalette.profileStatusBorder),
                         CircleShape
-                    )
-            )
+                    ),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    modifier = modifier.size(24.dp).wrapContentSize(),
+                    text = buildAnnotatedString {
+                        append(HtmlCompat.fromHtml(statusEmojiHtml, 0))
+                    },
+                    textAlign = TextAlign.Center
+                )
+            }
         }
     }
 }
