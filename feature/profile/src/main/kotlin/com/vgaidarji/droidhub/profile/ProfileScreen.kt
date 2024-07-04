@@ -1,5 +1,7 @@
 package com.vgaidarji.droidhub.profile
 
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -66,8 +68,23 @@ fun ProfileScreen(modifier: Modifier = Modifier, uiState: ProfileUiState) {
                 )
                 ProfileBody(gitHubUser = uiState.gitHubUser)
                 Followers(gitHubUser = uiState.gitHubUser)
+                Location(location = uiState.gitHubUser.location)
             }
         }
+    }
+}
+
+@Composable
+fun Location(modifier: Modifier = Modifier, location: String) {
+    Row(modifier = modifier
+        .width(contentWidth)
+        .wrapContentHeight().padding(top = 4.dp)) {
+        IconWithText(
+            modifier = modifier,
+            iconDrawableRes = R.drawable.ic_octicons_location,
+            contentDescriptionRes = R.string.content_description_location,
+            text = location
+        )
     }
 }
 
@@ -187,6 +204,34 @@ private fun FollowersText(
         style = MaterialTheme.typography.labelMedium,
         color = MaterialTheme.colorScheme.secondary
     )
+}
+
+@Composable
+fun IconWithText(
+    modifier: Modifier = Modifier,
+    @DrawableRes iconDrawableRes: Int,
+    @StringRes contentDescriptionRes: Int,
+    text: String
+) {
+    Row(modifier = modifier
+        .width(contentWidth)
+        .wrapContentHeight().padding(top = 5.dp)) {
+        Column(modifier = modifier) {
+            Row {
+                Image(
+                    modifier = modifier.size(16.dp),
+                    painter = painterResource(id = iconDrawableRes),
+                    contentDescription = stringResource(id = contentDescriptionRes)
+                )
+                Text(
+                    modifier = modifier.padding(start = 4.dp),
+                    text = text,
+                    style = MaterialTheme.typography.labelMedium,
+                    color = Color.DarkGray
+                )
+            }
+        }
+    }
 }
 
 @Preview(widthDp = 320, heightDp = 320)
