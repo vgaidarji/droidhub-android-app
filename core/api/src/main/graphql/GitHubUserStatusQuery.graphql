@@ -1,0 +1,12 @@
+# https://docs.github.com/en/graphql/reference/objects#userstatus
+query GitHubUserStatusQuery($user: String!) {
+  user (login: $user) {
+    status {
+      emoji
+      emojiHTML
+      expiresAt
+      limitedAvailability: indicatesLimitedAvailability
+      message
+    }
+  }
+}

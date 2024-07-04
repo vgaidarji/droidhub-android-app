@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="content_description_profile_avatar">Profile avatar image</string>
+    <string name="content_description_profile_status">Profile status image</string>
+    <string name="content_description_followers">Followers image</string>
+    <string name="content_description_location">Location image</string>
+    <string name="content_description_email">Email image</string>
+    <string name="content_description_blog_url">Blog URL image</string>
+</resources>

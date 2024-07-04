@@ -7,19 +7,18 @@
 
     <fragment
         android:id="@+id/navigation_repositories"
-        android:name="com.vgaidarji.github.app.ui.repositories.RepositoriesFragment"
+        android:name="com.vgaidarji.droidhub.ui.repositories.RepositoriesFragment"
         android:label="@string/title_repositories"
         tools:layout="@layout/fragment_repositories" />
 
     <fragment
         android:id="@+id/navigation_profile"
-        android:name="com.vgaidarji.github.profile.ProfileFragment"
-        android:label="@string/title_profile"
-        tools:layout="@layout/fragment_profile" />
+        android:name="com.vgaidarji.droidhub.profile.ProfileFragment"
+        android:label="@string/title_profile" />
 
     <fragment
         android:id="@+id/navigation_starred"
-        android:name="com.vgaidarji.github.app.ui.starred.StarredFragment"
+        android:name="com.vgaidarji.droidhub.ui.starred.StarredFragment"
         android:label="@string/title_starred"
         tools:layout="@layout/fragment_starred" />
 </navigation>

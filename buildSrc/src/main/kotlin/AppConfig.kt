@@ -2,7 +2,7 @@ class AppConfig {
     companion object {
         const val VERSION_NAME = "1.0.0"
         const val VERSION_CODE = 1
-        const val PACKAGE_NAME = "com.vgaidarji.github.app"
+        const val PACKAGE_NAME = "com.vgaidarji.droidhub"
         const val COMPILE_SDK_VERSION = 34
         const val TARGET_SDK_VERSION = 34
         const val MIN_SDK_VERSION = 23

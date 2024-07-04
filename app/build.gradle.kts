@@ -44,6 +44,7 @@ android {
 
 dependencies {
     implementation(project(AppConfig.Modules.CORE_REPOSITORY))
+    implementation(project(AppConfig.Modules.FEATURE_PROFILE))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
@@ -55,6 +56,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtimeCompose)
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
+    implementation(libs.timber)
 
     implementation(libs.dagger)
     kapt(libs.dagger.compiler)

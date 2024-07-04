@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">GitHub Android Application</string>
+    <string name="app_name">DroidHub Android Application</string>
     <string name="title_repositories">Repositories</string>
     <string name="title_profile">Profile</string>
     <string name="title_starred">Starred</string>

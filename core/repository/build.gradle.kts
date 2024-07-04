@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "com.vgaidarji.github.repository"
+    namespace = "com.vgaidarji.droidhub.repository"
     compileSdk = AppConfig.COMPILE_SDK_VERSION
 
     defaultConfig {
