@@ -70,6 +70,7 @@ fun ProfileScreen(modifier: Modifier = Modifier, uiState: ProfileUiState) {
                 Followers(gitHubUser = uiState.gitHubUser)
                 Location(location = uiState.gitHubUser.location)
                 Email(email = uiState.gitHubUser.email)
+                Blog(blogUrl = uiState.gitHubUser.blog)
             }
         }
     }
@@ -96,6 +97,16 @@ fun Email(modifier: Modifier = Modifier, email: String) {
         iconDrawableRes = R.drawable.ic_octicons_email,
         contentDescriptionRes = R.string.content_description_email,
         text = email
+    )
+}
+
+@Composable
+fun Blog(modifier: Modifier = Modifier, blogUrl: String) {
+    IconWithText(
+        modifier = modifier,
+        iconDrawableRes = R.drawable.ic_octicons_link,
+        contentDescriptionRes = R.string.content_description_blog_url,
+        text = blogUrl
     )
 }
 
