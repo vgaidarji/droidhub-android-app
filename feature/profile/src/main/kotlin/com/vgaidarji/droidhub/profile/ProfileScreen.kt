@@ -69,6 +69,7 @@ fun ProfileScreen(modifier: Modifier = Modifier, uiState: ProfileUiState) {
                 ProfileBody(gitHubUser = uiState.gitHubUser)
                 Followers(gitHubUser = uiState.gitHubUser)
                 Location(location = uiState.gitHubUser.location)
+                Email(email = uiState.gitHubUser.email)
             }
         }
     }
@@ -78,7 +79,7 @@ fun ProfileScreen(modifier: Modifier = Modifier, uiState: ProfileUiState) {
 fun Location(modifier: Modifier = Modifier, location: String) {
     Row(modifier = modifier
         .width(contentWidth)
-        .wrapContentHeight().padding(top = 4.dp)) {
+        .wrapContentHeight().padding(top = 8.dp)) {
         IconWithText(
             modifier = modifier,
             iconDrawableRes = R.drawable.ic_octicons_location,
@@ -86,6 +87,16 @@ fun Location(modifier: Modifier = Modifier, location: String) {
             text = location
         )
     }
+}
+
+@Composable
+fun Email(modifier: Modifier = Modifier, email: String) {
+    IconWithText(
+        modifier = modifier,
+        iconDrawableRes = R.drawable.ic_octicons_email,
+        contentDescriptionRes = R.string.content_description_email,
+        text = email
+    )
 }
 
 @Composable
@@ -256,7 +267,7 @@ fun ProfileScreenUserPreview() {
         company = "",
         blog = "http://vgaidarji.me",
         location = "Moldova",
-        email = "",
+        email = "veaceslav.gaidarji@gmail.com",
         bio = "CTO @Orangesoft-Development | ex-Director of Engineering @crunchyroll",
         publicRepositoriesCount = 69,
         followersCount = 105,
