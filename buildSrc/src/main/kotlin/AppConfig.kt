@@ -20,6 +20,7 @@ class AppConfig {
             const val CORE_API = ":core:api"
 
             const val FEATURE_PROFILE = ":feature:profile"
+            const val FEATURE_REPOSITORIES = ":feature:repositories"
         }
     }
 }

@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "com.vgaidarji.droidhub.profile"
+    namespace = "com.vgaidarji.droidhub.repositories"
     compileSdk = AppConfig.COMPILE_SDK_VERSION
 
     defaultConfig {
@@ -39,7 +39,6 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.compose.android)
     implementation(libs.androidx.ui.tooling.preview.android)
     debugImplementation(libs.androidx.ui.tooling)
-    implementation(libs.coil)
 
     implementation(libs.timber)
 
