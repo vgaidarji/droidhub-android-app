@@ -51,6 +51,7 @@ data class GitHubUserResponse(
         location = location ?: "",
         email = email ?: "",
         bio = bio ?: "",
+        twitterUserName = twitterUsername ?: "",
         publicRepositoriesCount = publicRepos ?: 0,
         followersCount = followers ?: 0,
         followingCount = following ?: 0

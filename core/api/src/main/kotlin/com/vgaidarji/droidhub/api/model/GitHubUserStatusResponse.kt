@@ -30,7 +30,7 @@ data class GitHubUserStatusResponse(
     @SerialName("email") val email: String?,
     @SerialName("hireable") val hireable: Boolean?,
     @SerialName("bio") val bio: String?,
-    @SerialName("twitter_username") val twitterUsername: String?,
+    @SerialName("twitter_username") val twitterUserName: String?,
     @SerialName("public_repos") val publicRepos: Int?,
     @SerialName("public_gists") val publicGists: Int?,
     @SerialName("followers") val followers: Int?,
@@ -51,6 +51,7 @@ data class GitHubUserStatusResponse(
         location = location ?: "",
         email = email ?: "",
         bio = bio ?: "",
+        twitterUserName = twitterUserName ?: "",
         publicRepositoriesCount = publicRepos ?: 0,
         followersCount = followers ?: 0,
         followingCount = following ?: 0

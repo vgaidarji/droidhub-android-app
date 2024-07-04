@@ -71,6 +71,7 @@ fun ProfileScreen(modifier: Modifier = Modifier, uiState: ProfileUiState) {
                 Location(location = uiState.gitHubUser.location)
                 Email(email = uiState.gitHubUser.email)
                 Blog(blogUrl = uiState.gitHubUser.blog)
+                TwitterUserName(twitterUserName = uiState.gitHubUser.twitterUserName)
             }
         }
     }
@@ -107,6 +108,16 @@ fun Blog(modifier: Modifier = Modifier, blogUrl: String) {
         iconDrawableRes = R.drawable.ic_octicons_link,
         contentDescriptionRes = R.string.content_description_blog_url,
         text = blogUrl
+    )
+}
+
+@Composable
+fun TwitterUserName(modifier: Modifier = Modifier, twitterUserName: String) {
+    IconWithText(
+        modifier = modifier,
+        iconDrawableRes = R.drawable.ic_octicons_twitter,
+        contentDescriptionRes = R.string.content_description_blog_url,
+        text = "@${twitterUserName}"
     )
 }
 
@@ -280,6 +291,7 @@ fun ProfileScreenUserPreview() {
         location = "Moldova",
         email = "veaceslav.gaidarji@gmail.com",
         bio = "CTO @Orangesoft-Development | ex-Director of Engineering @crunchyroll",
+        twitterUserName = "v_gaidarji",
         publicRepositoriesCount = 69,
         followersCount = 105,
         followingCount = 104

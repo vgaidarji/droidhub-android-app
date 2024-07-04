@@ -13,6 +13,7 @@ data class GitHubUser(
     val location: String,
     val email: String,
     val bio: String,
+    val twitterUserName: String,
     val publicRepositoriesCount: Int,
     val followersCount: Int,
     val followingCount: Int
@@ -31,6 +32,7 @@ data class GitHubUser(
             location = "",
             email = "",
             bio = "",
+            twitterUserName = "",
             publicRepositoriesCount = 0,
             followersCount = 0,
             followingCount = 0
