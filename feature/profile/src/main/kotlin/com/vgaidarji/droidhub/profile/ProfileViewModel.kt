@@ -66,10 +66,10 @@ class ProfileViewModel @Inject constructor(
         var gitHubUserStatus: GitHubUserStatus = GitHubUserStatus.NO_USER_STATUS
         coroutineScope {
             launch {
-                gitHubUser = gitHubUserRepository.getGitHubUser(GITHUB_USER_NAME)
+                gitHubUser = gitHubUserRepository.getUser(GITHUB_USER_NAME)
             }
             launch {
-                gitHubUserStatus = gitHubUserRepository.getGitHubUserStatus(GITHUB_USER_NAME)
+                gitHubUserStatus = gitHubUserRepository.getUserStatus(GITHUB_USER_NAME)
             }
         }
         return Pair(gitHubUser, gitHubUserStatus)

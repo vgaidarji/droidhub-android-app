@@ -2,6 +2,7 @@ package com.vgaidarji.droidhub.repository
 
 import com.vgaidarji.droidhub.api.GitHubUsersApi
 import com.vgaidarji.droidhub.api.GitHubUsersGraphQlApi
+import com.vgaidarji.droidhub.model.GitHubRepository
 import com.vgaidarji.droidhub.model.GitHubUser
 import com.vgaidarji.droidhub.model.GitHubUserStatus
 import javax.inject.Inject
@@ -13,11 +14,15 @@ class GitHubUserRepository @Inject constructor(
     private val gitHubUsersGraphQlApi: GitHubUsersGraphQlApi
 ) {
 
-    suspend fun getGitHubUser(name: String): GitHubUser {
-        return gitHubUsersApi.getGitHubUser(name)
+    suspend fun getUser(name: String): GitHubUser {
+        return gitHubUsersApi.getUser(name)
     }
 
-    suspend fun getGitHubUserStatus(name: String): GitHubUserStatus {
-        return gitHubUsersGraphQlApi.getGitHubUserStatus(name)
+    suspend fun getUserStatus(name: String): GitHubUserStatus {
+        return gitHubUsersGraphQlApi.getUserStatus(name)
+    }
+
+    suspend fun getUserRepositories(owner: String): List<GitHubRepository> {
+        return gitHubUsersApi.getUserRepositories(owner)
     }
 }

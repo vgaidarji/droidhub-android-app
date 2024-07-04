@@ -5,7 +5,7 @@ class AppConfig {
         const val PACKAGE_NAME = "com.vgaidarji.droidhub"
         const val COMPILE_SDK_VERSION = 34
         const val TARGET_SDK_VERSION = 34
-        const val MIN_SDK_VERSION = 23
+        const val MIN_SDK_VERSION = 26
 
         const val JVM_TARGET =  "1.8"
     }
