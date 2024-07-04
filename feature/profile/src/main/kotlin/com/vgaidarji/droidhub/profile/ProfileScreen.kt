@@ -1,6 +1,7 @@
 package com.vgaidarji.droidhub.profile
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -21,7 +22,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -117,7 +120,10 @@ fun ProfileAvatar(modifier: Modifier = Modifier, avatarUrl: String, statusEmojiH
 
 @Composable
 fun ProfileBody(modifier: Modifier = Modifier, gitHubUser: GitHubUser) {
-    Row(modifier = modifier.width(contentWidth).wrapContentHeight().padding(top = 8.dp)) {
+    Row(modifier = modifier
+        .width(contentWidth)
+        .wrapContentHeight()
+        .padding(top = 8.dp)) {
         Column {
             Text(
                 modifier = modifier,
@@ -144,30 +150,43 @@ fun ProfileBody(modifier: Modifier = Modifier, gitHubUser: GitHubUser) {
 
 @Composable
 fun Followers(modifier: Modifier = Modifier, gitHubUser: GitHubUser) {
-    Row(modifier = modifier.width(contentWidth).wrapContentHeight().padding(top = 8.dp)) {
+    Row(modifier = modifier
+        .width(contentWidth)
+        .wrapContentHeight()
+        .padding(top = 8.dp)) {
         Column(modifier = modifier) {
-            Text(
-                modifier = modifier,
-                text = buildAnnotatedString {
-                    withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                        append(gitHubUser.followersCount.toString())
-                    }
-                    append(" ${stringResource(id = R.string.followers)}")
-                },
-            )
+            Row {
+                Image(
+                    modifier = modifier.size(16.dp),
+                    painter = painterResource(id = R.drawable.ic_octicons_people),
+                    contentDescription = stringResource(id = R.string.content_description_followers)
+                )
+                FollowersText(modifier.padding(start = 4.dp), gitHubUser.followersCount, stringResource(id = R.string.followers))
+            }
         }
         Column(modifier = modifier.padding(start = 8.dp)) {
-            Text(
-                modifier = modifier,
-                text = buildAnnotatedString {
-                    withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                        append(gitHubUser.followingCount.toString())
-                    }
-                    append(" ${stringResource(id = R.string.following)}")
-                },
-            )
+            FollowersText(modifier, gitHubUser.followingCount, stringResource(id = R.string.following))
         }
     }
+}
+
+@Composable
+private fun FollowersText(
+    modifier: Modifier,
+    count: Int,
+    title: String
+) {
+    Text(
+        modifier = modifier,
+        text = buildAnnotatedString {
+            withStyle(style = SpanStyle(fontWeight = FontWeight.Bold, color = Color.Black)) {
+                append(count.toString())
+            }
+            append(" $title")
+        },
+        style = MaterialTheme.typography.labelMedium,
+        color = MaterialTheme.colorScheme.secondary
+    )
 }
 
 @Preview(widthDp = 320, heightDp = 320)

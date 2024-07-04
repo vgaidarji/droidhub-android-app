@@ -2,4 +2,5 @@
 <resources>
     <string name="content_description_profile_avatar">Profile avatar image</string>
     <string name="content_description_profile_status">Profile status image</string>
+    <string name="content_description_followers">Followers image</string>
 </resources>
