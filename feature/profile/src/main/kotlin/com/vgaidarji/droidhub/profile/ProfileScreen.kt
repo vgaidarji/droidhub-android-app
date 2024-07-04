@@ -44,7 +44,7 @@ import com.vgaidarji.droidhub.base.ui.theme.customColorsPalette
 import com.vgaidarji.droidhub.model.GitHubUser
 import com.vgaidarji.droidhub.model.GitHubUserStatus
 
-val contentWidth = 250.dp
+val contentWidth = 300.dp
 
 @Composable
 fun ProfileScreen(modifier: Modifier = Modifier, profileViewModel: ProfileViewModel) {
@@ -141,7 +141,7 @@ fun ProfileAvatar(modifier: Modifier = Modifier, avatarUrl: String, statusEmojiH
         Box(
             modifier = modifier
                 .align(Alignment.BottomEnd)
-                .padding(vertical = 20.dp)
+                .padding(vertical = 34.dp)
         ) {
             Box(
                 modifier = modifier
