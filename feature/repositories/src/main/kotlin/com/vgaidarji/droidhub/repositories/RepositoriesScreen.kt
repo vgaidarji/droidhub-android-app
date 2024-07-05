@@ -30,6 +30,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.vgaidarji.droidhub.base.ui.component.IconWithText
 import com.vgaidarji.droidhub.base.ui.component.ProgressView
 import com.vgaidarji.droidhub.base.ui.theme.Blue
 import com.vgaidarji.droidhub.base.ui.theme.DroidHubTheme
@@ -40,6 +41,7 @@ import com.vgaidarji.droidhub.model.License
 import com.vgaidarji.droidhub.model.RepositoryOwner
 import com.vgaidarji.droidhub.model.date.DateFormatter
 import java.time.LocalDateTime
+import com.vgaidarji.droidhub.base.R as RBase
 
 @Composable
 fun RepositoriesScreen(
@@ -78,13 +80,15 @@ private fun RepositoriesList(modifier: Modifier = Modifier, repositories: List<G
 
 @Composable
 fun RepositoryRow(modifier: Modifier = Modifier, repository: GitHubRepository) {
-    Column(modifier = modifier
-        .fillMaxWidth()
-        .padding(4.dp)) {
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(4.dp)
+    ) {
         RepositoryName(modifier, repository.name)
         RepositoryDescription(modifier, repository.description)
         RepositoryTopics(modifier, repository.topics)
-        RepositoryLanguage(modifier, repository.language)
+        RepositoryMetadata(modifier, repository)
     }
 }
 
@@ -145,25 +149,41 @@ private fun RepositoryTopics(
 }
 
 @Composable
-private fun RepositoryLanguage(modifier: Modifier = Modifier, language: String) {
-    val languageCircle = ProgrammingLanguageColor.of(language)
+private fun RepositoryMetadata(modifier: Modifier = Modifier, repository: GitHubRepository) {
     Row(
         modifier = modifier.padding(start = 4.dp, top = 4.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Image(
-            modifier = Modifier
-                .size(10.dp),
-            painter = painterResource(languageCircle.icon),
-            contentDescription = null,
-        )
-        Text(
-            modifier = modifier.padding(start = 4.dp),
-            text = language,
-            style = MaterialTheme.typography.bodySmall,
-            color = LightGray
-        )
+        RepositoryLanguage(language = repository.language)
+        RepositoryLicense(license = repository.license)
     }
+}
+
+@Composable
+private fun RepositoryLanguage(language: String) {
+    val languageCircle = ProgrammingLanguageColor.of(language)
+    Image(
+        modifier = Modifier.size(10.dp),
+        painter = painterResource(languageCircle.icon),
+        contentDescription = null,
+    )
+    Text(
+        modifier = Modifier.padding(start = 4.dp),
+        text = language,
+        style = MaterialTheme.typography.bodySmall,
+        color = LightGray
+    )
+}
+
+@Composable
+private fun RepositoryLicense(license: License) {
+    IconWithText(
+        modifier = Modifier.padding(start = 4.dp),
+        iconDrawableRes = RBase.drawable.ic_octicons_law,
+        contentDescriptionRes = R.string.content_description_license,
+        text = license.name,
+        color = LightGray
+    )
 }
 
 @Preview(widthDp = 320, heightDp = 320)
