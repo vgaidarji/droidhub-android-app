@@ -1,12 +1,15 @@
 package com.vgaidarji.droidhub.repositories
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Chip
@@ -18,7 +21,9 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -75,17 +80,19 @@ private fun RepositoriesList(modifier: Modifier = Modifier, repositories: List<G
 fun RepositoryRow(modifier: Modifier = Modifier, repository: GitHubRepository) {
     Column(modifier = modifier
         .fillMaxWidth()
-        .padding(8.dp)) {
-        RepositoryName(modifier, repository)
-        RepositoryDescription(modifier, repository)
-        RepositoryTopics(modifier, repository)
+        .padding(4.dp)) {
+        RepositoryName(modifier, repository.name)
+        RepositoryDescription(modifier, repository.description)
+        RepositoryTopics(modifier, repository.topics)
+        RepositoryLanguage(modifier, repository.language)
     }
 }
 
 @Composable
-private fun RepositoryName(modifier: Modifier = Modifier, repository: GitHubRepository) {
+private fun RepositoryName(modifier: Modifier = Modifier, name: String) {
     Text(
-        text = repository.name,
+        modifier = modifier.padding(start = 4.dp),
+        text = name,
         style = MaterialTheme.typography.titleLarge.copy(
             fontWeight = FontWeight.ExtraBold,
             fontSize = 18.sp
@@ -97,12 +104,12 @@ private fun RepositoryName(modifier: Modifier = Modifier, repository: GitHubRepo
 @Composable
 private fun RepositoryDescription(
     modifier: Modifier = Modifier,
-    repository: GitHubRepository
+    description: String
 ) {
-    if (repository.description.isNotBlank()) {
+    if (description.isNotBlank()) {
         Text(
-            modifier = modifier.padding(top = 4.dp),
-            text = repository.description,
+            modifier = modifier.padding(top = 4.dp, start = 4.dp),
+            text = description,
             style = MaterialTheme.typography.bodySmall,
             color = LightGray
         )
@@ -113,10 +120,10 @@ private fun RepositoryDescription(
 @OptIn(ExperimentalLayoutApi::class, ExperimentalMaterialApi::class)
 private fun RepositoryTopics(
     modifier: Modifier,
-    repository: GitHubRepository
+    topics: List<String>
 ) {
     FlowRow(modifier = modifier.padding(top = 4.dp)) {
-        for (topic in repository.topics) {
+        for (topic in topics) {
             Chip(
                 modifier = Modifier
                     .padding(2.dp)
@@ -134,6 +141,28 @@ private fun RepositoryTopics(
                 )
             }
         }
+    }
+}
+
+@Composable
+private fun RepositoryLanguage(modifier: Modifier = Modifier, language: String) {
+    val languageCircle = ProgrammingLanguageColor.of(language)
+    Row(
+        modifier = modifier.padding(start = 4.dp, top = 4.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Image(
+            modifier = Modifier
+                .size(10.dp),
+            painter = painterResource(languageCircle.icon),
+            contentDescription = null,
+        )
+        Text(
+            modifier = modifier.padding(start = 4.dp),
+            text = language,
+            style = MaterialTheme.typography.bodySmall,
+            color = LightGray
+        )
     }
 }
 
