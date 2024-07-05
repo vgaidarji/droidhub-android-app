@@ -161,15 +161,15 @@ private fun RepositoryMetadata(modifier: Modifier = Modifier, repository: GitHub
 
 @Composable
 private fun RepositoryLanguage(language: String) {
-    val languageCircle = ProgrammingLanguageColor.of(language)
+    val programmingLanguage = ProgrammingLanguageColor.of(language)
     Image(
         modifier = Modifier.size(10.dp),
-        painter = painterResource(languageCircle.icon),
+        painter = painterResource(programmingLanguage.icon),
         contentDescription = null,
     )
     Text(
         modifier = Modifier.padding(start = 4.dp),
-        text = language,
+        text = programmingLanguage.title,
         style = MaterialTheme.typography.bodySmall,
         color = LightGray
     )
