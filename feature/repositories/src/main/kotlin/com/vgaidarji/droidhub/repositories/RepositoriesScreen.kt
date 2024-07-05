@@ -83,7 +83,7 @@ fun RepositoryRow(modifier: Modifier = Modifier, repository: GitHubRepository) {
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .padding(4.dp)
+            .padding(8.dp)
     ) {
         RepositoryName(modifier, repository.name)
         RepositoryDescription(modifier, repository.description)
