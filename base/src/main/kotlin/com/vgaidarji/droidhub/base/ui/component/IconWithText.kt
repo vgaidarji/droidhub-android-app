@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -23,7 +24,8 @@ fun IconWithText(
     @DrawableRes iconDrawableRes: Int,
     @StringRes contentDescriptionRes: Int,
     text: String,
-    color: Color = Color.DarkGray
+    color: Color = Color.DarkGray,
+    textStartPadding: Dp = 4.dp
 ) {
     Row(modifier = modifier.wrapContentHeight()) {
         Column(modifier = modifier) {
@@ -34,7 +36,7 @@ fun IconWithText(
                     contentDescription = stringResource(id = contentDescriptionRes)
                 )
                 Text(
-                    modifier = modifier.padding(start = 4.dp),
+                    modifier = modifier.padding(start = textStartPadding),
                     text = text,
                     style = MaterialTheme.typography.labelMedium,
                     color = color

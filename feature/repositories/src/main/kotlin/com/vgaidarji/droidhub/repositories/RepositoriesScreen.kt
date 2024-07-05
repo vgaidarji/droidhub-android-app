@@ -156,6 +156,7 @@ private fun RepositoryMetadata(modifier: Modifier = Modifier, repository: GitHub
     ) {
         RepositoryLanguage(language = repository.language)
         RepositoryLicense(license = repository.license)
+        RepositoryStargazers(stargazersCount = repository.stargazersCount)
     }
 }
 
@@ -183,7 +184,22 @@ private fun RepositoryLicense(license: License) {
             iconDrawableRes = RBase.drawable.ic_octicons_law,
             contentDescriptionRes = R.string.content_description_license,
             text = license.name,
-            color = LightGray
+            color = LightGray,
+            textStartPadding = 0.dp
+        )
+    }
+}
+
+@Composable
+private fun RepositoryStargazers(stargazersCount: Int) {
+    if (stargazersCount > 0) {
+        IconWithText(
+            modifier = Modifier.padding(start = 4.dp),
+            iconDrawableRes = RBase.drawable.ic_octicons_star,
+            contentDescriptionRes = R.string.content_description_stargazers,
+            text = stargazersCount.toString(),
+            color = LightGray,
+            textStartPadding = 0.dp
         )
     }
 }
