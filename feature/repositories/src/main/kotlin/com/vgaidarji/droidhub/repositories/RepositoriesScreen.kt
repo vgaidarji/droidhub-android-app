@@ -177,13 +177,15 @@ private fun RepositoryLanguage(language: String) {
 
 @Composable
 private fun RepositoryLicense(license: License) {
-    IconWithText(
-        modifier = Modifier.padding(start = 4.dp),
-        iconDrawableRes = RBase.drawable.ic_octicons_law,
-        contentDescriptionRes = R.string.content_description_license,
-        text = license.name,
-        color = LightGray
-    )
+    if (license.name.isNotBlank()) {
+        IconWithText(
+            modifier = Modifier.padding(start = 4.dp),
+            iconDrawableRes = RBase.drawable.ic_octicons_law,
+            contentDescriptionRes = R.string.content_description_license,
+            text = license.name,
+            color = LightGray
+        )
+    }
 }
 
 @Preview(widthDp = 320, heightDp = 320)
