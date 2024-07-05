@@ -20,9 +20,15 @@ class RepositoriesViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            setLoadingState()
-
-            gitHubUserRepository.getUserRepositories(GITHUB_USER_NAME)
+            runCatching {
+                setLoadingState()
+                gitHubUserRepository.getUserRepositories(GITHUB_USER_NAME)
+            }.onSuccess { repositories ->
+                _uiState.value = _uiState.value.copy(repositories = repositories, isLoading = false)
+            }.onFailure { _ ->
+                setErrorState()
+                // TODO: handle errors
+            }
         }
     }
 

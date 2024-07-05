@@ -33,6 +33,7 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.ui.android)
+    implementation(libs.androidx.material)
 
     implementation(libs.dagger)
     implementation(libs.androidx.material3.android)

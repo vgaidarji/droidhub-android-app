@@ -28,7 +28,7 @@ dependencies {
     api(project(AppConfig.Modules.CORE_REPOSITORY))
 
     // design
-    implementation(libs.material)
+    implementation(libs.google.android.material)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.fragment.ktx)
