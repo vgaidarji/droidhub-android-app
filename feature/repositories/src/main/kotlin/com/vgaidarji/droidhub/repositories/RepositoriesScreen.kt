@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Chip
 import androidx.compose.material.ChipDefaults
@@ -69,11 +70,9 @@ private fun RepositoriesList(modifier: Modifier = Modifier, repositories: List<G
     val listState = rememberLazyListState()
 
     LazyColumn(state = listState) {
-        for (repository in repositories) {
-            item {
-                RepositoryRow(modifier = modifier, repository = repository)
-                HorizontalDivider()
-            }
+        items(repositories, key = { it.id }) { repository ->
+            RepositoryRow(modifier = modifier, repository = repository)
+            HorizontalDivider()
         }
     }
 }
