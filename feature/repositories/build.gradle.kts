@@ -34,6 +34,7 @@ dependencies {
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.ui.android)
     implementation(libs.androidx.material)
+    implementation(libs.androidx.paging)
 
     implementation(libs.dagger)
     implementation(libs.androidx.material3.android)

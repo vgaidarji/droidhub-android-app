@@ -2,41 +2,23 @@ package com.vgaidarji.droidhub.repositories
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.cachedIn
+import com.vgaidarji.droidhub.repositories.RepositoriesPagingSource.Companion.PAGE_SIZE
 import com.vgaidarji.droidhub.repository.GitHubUserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class RepositoriesViewModel @Inject constructor(
     private val gitHubUserRepository: GitHubUserRepository
 ) : ViewModel() {
-    private val _uiState = MutableStateFlow(RepositoriesUiState.NO_REPOSITORIES)
-    val uiState: StateFlow<RepositoriesUiState> get() = _uiState
-    // TODO: parametrize to allow for loading arbitrary user's profile
-    val GITHUB_USER_NAME = "vgaidarji"
-
-    init {
-        viewModelScope.launch {
-            runCatching {
-                setLoadingState()
-                gitHubUserRepository.getUserRepositories(GITHUB_USER_NAME)
-            }.onSuccess { repositories ->
-                _uiState.value = _uiState.value.copy(repositories = repositories, isLoading = false)
-            }.onFailure { _ ->
-                setErrorState()
-                // TODO: handle errors
-            }
-        }
-    }
-
-    private fun setErrorState() {
-        _uiState.value = _uiState.value.copy(isLoading = false, isError = true)
-    }
-
-    private fun setLoadingState() {
-        _uiState.value = _uiState.value.copy(isLoading = true)
-    }
+    val repositories = Pager(
+        config = PagingConfig(
+            pageSize = PAGE_SIZE,
+            enablePlaceholders = false
+        ),
+        pagingSourceFactory = { RepositoriesPagingSource(gitHubUserRepository) }
+    ).flow.cachedIn(scope = viewModelScope)
 }

@@ -33,6 +33,7 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.foundation.android)
+    implementation(libs.androidx.ui.tooling.preview.android)
 
     // lifecycle
     implementation(libs.androidx.lifecycle.livedata.ktx)

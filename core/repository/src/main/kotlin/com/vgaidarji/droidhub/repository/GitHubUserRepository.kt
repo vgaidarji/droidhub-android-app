@@ -22,7 +22,7 @@ class GitHubUserRepository @Inject constructor(
         return gitHubUsersGraphQlApi.getUserStatus(name)
     }
 
-    suspend fun getUserRepositories(owner: String): List<GitHubRepository> {
-        return gitHubUsersApi.getUserRepositories(owner)
+    suspend fun getUserRepositories(owner: String, page: Int, pageSize: Int): List<GitHubRepository> {
+        return gitHubUsersApi.getUserRepositories(owner, page, pageSize)
     }
 }

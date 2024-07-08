@@ -18,6 +18,7 @@ androidxUiToolingPreviewAndroid = "1.6.8"
 androidxUiTooling = "1.6.8"
 navigationUiKtx = "2.7.7"
 material3Android = "1.2.1"
+paging = "3.3.0"
 lifecycleRuntimeComposeAndroid = "2.8.2"
 coil = "2.6.0"
 
@@ -59,6 +60,7 @@ androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling", vers
 androidx-ui-tooling-preview-android = { group = "androidx.compose.ui", name = "ui-tooling-preview-android", version.ref = "androidxUiToolingPreviewAndroid" }
 androidx-material3-android = { group = "androidx.compose.material3", name = "material3-android", version.ref = "material3Android" }
 androidx-material = { group = "androidx.compose.material", name = "material", version.ref = "composeMaterial" }
+androidx-paging = { group = "androidx.paging", name = "paging-compose", version.ref = "paging" }
 google-android-material = { group = "com.google.android.material", name = "material", version.ref = "googleMaterial" }
 androidx-lifecycle-runtime-compose-android = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose-android", version.ref = "lifecycleRuntimeComposeAndroid" }
 kotlinx-serialization = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerialization" }

@@ -11,28 +11,28 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Chip
 import androidx.compose.material.ChipDefaults
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.paging.LoadState
+import androidx.paging.LoadStates
+import androidx.paging.PagingData
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
+import com.vgaidarji.droidhub.base.ui.PreviewWithBackground
 import com.vgaidarji.droidhub.base.ui.component.IconWithText
-import com.vgaidarji.droidhub.base.ui.component.ProgressView
 import com.vgaidarji.droidhub.base.ui.theme.Blue
 import com.vgaidarji.droidhub.base.ui.theme.DroidHubTheme
 import com.vgaidarji.droidhub.base.ui.theme.LightBlue
@@ -41,6 +41,11 @@ import com.vgaidarji.droidhub.model.GitHubRepository
 import com.vgaidarji.droidhub.model.License
 import com.vgaidarji.droidhub.model.RepositoryOwner
 import com.vgaidarji.droidhub.model.date.DateFormatter
+import com.vgaidarji.droidhub.repositories.ui.EmptyItem
+import com.vgaidarji.droidhub.repositories.ui.PaginationErrorItem
+import com.vgaidarji.droidhub.repositories.ui.PaginationLoadingItem
+import com.vgaidarji.droidhub.repositories.ui.PaginationRetryItem
+import kotlinx.coroutines.flow.flowOf
 import java.time.LocalDateTime
 import com.vgaidarji.droidhub.base.R as RBase
 
@@ -49,30 +54,64 @@ fun RepositoriesScreen(
     modifier: Modifier = Modifier,
     repositoriesViewModel: RepositoriesViewModel
 ) {
-    val uiState by repositoriesViewModel.uiState.collectAsStateWithLifecycle()
-    RepositoriesScreen(modifier, uiState)
+    val repositories = repositoriesViewModel.repositories.collectAsLazyPagingItems()
+    RepositoriesScreen(modifier, repositories)
 }
 
 @Composable
-fun RepositoriesScreen(modifier: Modifier = Modifier, uiState: RepositoriesUiState) {
-    if (uiState.isLoading) {
-        ProgressView()
-    } else {
-        Surface(modifier, color = MaterialTheme.colorScheme.background) {
-            RepositoriesList(modifier, uiState.repositories)
-        }
-    }
-}
-
-@Composable
-private fun RepositoriesList(modifier: Modifier = Modifier, repositories: List<GitHubRepository>) {
-    // Remember our own LazyListState
+fun RepositoriesScreen(
+    modifier: Modifier = Modifier,
+    repositories: LazyPagingItems<GitHubRepository>
+) {
     val listState = rememberLazyListState()
+    LazyColumn(state = listState, modifier = modifier.fillMaxSize()) {
+        when (repositories.loadState.refresh) {
+            LoadState.Loading -> {
+                item {
+                    PaginationLoadingItem(circularProgressSize = 64.dp)
+                }
+            }
 
-    LazyColumn(state = listState) {
-        items(repositories, key = { it.id }) { repository ->
-            RepositoryRow(modifier = modifier, repository = repository)
-            HorizontalDivider()
+            is LoadState.Error -> {
+                item {
+                    PaginationErrorItem {
+                        repositories.refresh()
+                    }
+                }
+            }
+
+            is LoadState.NotLoading -> {
+                if (repositories.itemCount < 1) {
+                    item {
+                        EmptyItem()
+                    }
+                }
+            }
+        }
+        items(repositories.itemCount) { index ->
+            val repository = repositories[index]
+            if (repository != null) {
+                RepositoryRow(modifier = modifier, repository = repository)
+                HorizontalDivider()
+            }
+        }
+
+        when (repositories.loadState.append) {
+            LoadState.Loading -> {
+                item {
+                    PaginationLoadingItem()
+                }
+            }
+
+            is LoadState.Error -> {
+                item {
+                    PaginationRetryItem {
+                        repositories.retry()
+                    }
+                }
+            }
+
+            is LoadState.NotLoading -> Unit
         }
     }
 }
@@ -203,7 +242,7 @@ private fun RepositoryStargazers(stargazersCount: Int) {
     }
 }
 
-@Preview(widthDp = 320, heightDp = 320)
+@PreviewWithBackground
 @Composable
 fun ProfileScreenLoadingPreview() {
     val repositories = listOf(
@@ -271,11 +310,51 @@ fun ProfileScreenLoadingPreview() {
         )
     )
 
+    val repositoriesPagingData = flowOf(
+        value = PagingData.from(data = repositories,
+        sourceLoadStates = LoadStates(
+            refresh = LoadState.NotLoading(false),
+            append = LoadState.NotLoading(false),
+            prepend = LoadState.NotLoading(false),
+        ))
+    ).collectAsLazyPagingItems()
+
     DroidHubTheme {
         RepositoriesScreen(
             modifier = Modifier.fillMaxSize(),
-            uiState = RepositoriesUiState(repositories = repositories, isLoading = false)
+            repositories = repositoriesPagingData
         )
     }
 }
 
+@Composable
+@PreviewWithBackground
+fun PreviewPaginationLoadingItem() {
+    DroidHubTheme {
+        PaginationLoadingItem()
+    }
+}
+
+@Composable
+@PreviewWithBackground
+fun PreviewPaginationErrorItem() {
+    DroidHubTheme {
+        PaginationErrorItem {}
+    }
+}
+
+@Composable
+@PreviewWithBackground
+fun PreviewEmptyItem() {
+    DroidHubTheme {
+        EmptyItem()
+    }
+}
+
+@Composable
+@PreviewWithBackground
+fun PreviewPaginationRetryItem() {
+    DroidHubTheme {
+        PaginationRetryItem {}
+    }
+}
