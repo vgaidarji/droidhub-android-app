@@ -25,6 +25,7 @@ rootProject.name = "GitHub Android Application"
 include(":app")
 include(":base")
 include(":feature:profile")
+include(":feature:repositories")
 include(":core:api")
 include(":core:repository")
 include(":model")

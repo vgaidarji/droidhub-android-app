@@ -7,7 +7,7 @@ import kotlinx.coroutines.withContext
 
 class GitHubUsersGraphQlApiClient(apolloClient: ApolloClient) : GitHubUsersGraphQlApi {
     private val client = apolloClient
-    override suspend fun getGitHubUserStatus(name: String): GitHubUserStatus {
+    override suspend fun getUserStatus(name: String): GitHubUserStatus {
         return withContext(Dispatchers.IO) {
             val response = client.query(GitHubUserStatusQuery(user = name)).execute()
             response.data?.user?.status.toModel()

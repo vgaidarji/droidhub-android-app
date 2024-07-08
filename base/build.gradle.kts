@@ -28,11 +28,12 @@ dependencies {
     api(project(AppConfig.Modules.CORE_REPOSITORY))
 
     // design
-    implementation(libs.material)
+    implementation(libs.google.android.material)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.foundation.android)
+    implementation(libs.androidx.ui.tooling.preview.android)
 
     // lifecycle
     implementation(libs.androidx.lifecycle.livedata.ktx)

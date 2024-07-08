@@ -45,11 +45,12 @@ android {
 dependencies {
     implementation(project(AppConfig.Modules.CORE_REPOSITORY))
     implementation(project(AppConfig.Modules.FEATURE_PROFILE))
+    implementation(project(AppConfig.Modules.FEATURE_REPOSITORIES))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.fragment.ktx)
-    implementation(libs.material)
+    implementation(libs.google.android.material)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
