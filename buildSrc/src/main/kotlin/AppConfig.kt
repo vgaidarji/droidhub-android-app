@@ -21,6 +21,7 @@ class AppConfig {
 
             const val FEATURE_PROFILE = ":feature:profile"
             const val FEATURE_REPOSITORIES = ":feature:repositories"
+            const val FEATURE_CONTRIBUTIONS = ":feature:contributions"
         }
     }
 }
