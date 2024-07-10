@@ -53,7 +53,7 @@ private fun GitHubUserContributionsQuery.ContributionCalendar?.toModel(): GitHub
                 contributionDays = week.contributionDays.map {day ->
                     GitHubUserContributionsDay(
                         weekday = day.weekday,
-                        date = day.date,
+                        date = day.date.toString(),
                         contributionCount = day.contributionCount,
                         color = day.color
                     )
@@ -64,7 +64,7 @@ private fun GitHubUserContributionsQuery.ContributionCalendar?.toModel(): GitHub
             GitHubUserContributionsMonth(
                 name = month.name,
                 year = month.year,
-                firstDay = month.firstDay,
+                firstDay = month.firstDay.toString(),
                 totalWeeks = month.totalWeeks,
             )
         } ?: emptyList(),

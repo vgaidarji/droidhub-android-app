@@ -1,5 +1,8 @@
 package com.vgaidarji.droidhub.model.contributions
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class GitHubUserContributions(
     /**
      * The count of total contributions in the calendar.
@@ -23,6 +26,7 @@ data class GitHubUserContributions(
     }
 }
 
+@Serializable
 data class GitHubUserContributionsWeek(
     /**
      * A calendar of this user's contributions on GitHub.
@@ -30,6 +34,7 @@ data class GitHubUserContributionsWeek(
     val contributionDays: List<GitHubUserContributionsDay>
 )
 
+@Serializable
 data class GitHubUserContributionsMonth(
     /**
      * The name of the month.
@@ -42,13 +47,14 @@ data class GitHubUserContributionsMonth(
     /**
      * The date of the first day of this month.
      */
-    val firstDay: Any,
+    val firstDay: String,
     /**
      * How many weeks started in this month.
      */
     val totalWeeks: Int,
 )
 
+@Serializable
 data class GitHubUserContributionsDay(
     /**
      * A number representing which day of the week this square represents, e.g., 1 is Monday.
@@ -57,7 +63,7 @@ data class GitHubUserContributionsDay(
     /**
      * The day this square represents.
      */
-    val date: Any,
+    val date: String,
     /**
      * How many contributions were made by the user on this day.
      */

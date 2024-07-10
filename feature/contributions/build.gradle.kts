@@ -2,6 +2,7 @@ plugins {
     id(libs.plugins.androidLibrary.get().pluginId)
     id(libs.plugins.jetbrainsKotlinAndroid.get().pluginId)
     alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.kotlinSerialization)
     id(libs.plugins.daggerHilt.get().pluginId)
     id(libs.plugins.kotlinKapt.get().pluginId)
 }
@@ -37,6 +38,8 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.compose.android)
     implementation(libs.androidx.ui.tooling.preview.android)
     debugImplementation(libs.androidx.ui.tooling)
+
+    implementation(libs.kotlinx.serialization)
 
     implementation(libs.timber)
     implementation(libs.dagger)
