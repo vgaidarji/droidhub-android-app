@@ -4,14 +4,18 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PageSize
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.MaterialTheme
@@ -24,12 +28,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.vgaidarji.droidhub.base.ui.PreviewWithBackground
 import com.vgaidarji.droidhub.base.ui.component.ProgressView
+import com.vgaidarji.droidhub.base.ui.theme.Blue
 import com.vgaidarji.droidhub.base.ui.theme.DroidHubTheme
 import com.vgaidarji.droidhub.contributions.ui.ContributionsCell
 import com.vgaidarji.droidhub.contributions.ui.EmptyCell
@@ -62,13 +68,38 @@ fun ContributionsScreen(
                 modifier.padding(8.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                ContributionsYear(
-                    yearsOfContribution = uiState.yearsOfContribution,
-                    selectedYear = uiState.selectedYear,
-                    onYearClicked = onYearClicked
-                )
+                ContributionsHeader(uiState, onYearClicked)
                 ContributionsCalendar(contributions = uiState.gitHubUserContributions)
             }
+        }
+    }
+}
+
+@Composable
+fun ContributionsHeader(
+    uiState: ContributionsUiState,
+    onYearClicked: (Int) -> Unit
+) {
+    Row(
+        modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp),
+        horizontalArrangement = Arrangement.End,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Box(modifier = Modifier.wrapContentSize()) {
+            Text(
+                text = pluralStringResource(
+                    id = R.plurals.contributions,
+                    uiState.gitHubUserContributions.totalContributions,
+                    uiState.gitHubUserContributions.totalContributions
+                )
+            )
+        }
+        Box (modifier = Modifier.wrapContentSize()) {
+            ContributionsYear(
+                yearsOfContribution = uiState.yearsOfContribution,
+                selectedYear = uiState.selectedYear,
+                onYearClicked = onYearClicked
+            )
         }
     }
 }
@@ -135,32 +166,28 @@ fun ContributionsYear(modifier: Modifier = Modifier,
                       onYearClicked: (Int) -> Unit) {
     var isExpanded by remember { mutableStateOf(false) }
 
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentSize(Alignment.TopEnd)
+    Button(
+        modifier = modifier
+            .height(48.dp)
+            .padding(4.dp),
+        shape = RoundedCornerShape(8.dp),
+        colors = ButtonDefaults.buttonColors(containerColor = Blue),
+        onClick = { isExpanded = !isExpanded }
     ) {
-        Button(
-            modifier = modifier
-                .wrapContentSize()
-                .padding(24.dp),
-            onClick = { isExpanded = !isExpanded }
-        ) {
-            Text(text = selectedYear.toString())
-        }
+        Text(text = selectedYear.toString())
+    }
 
-        DropdownMenu(
-            expanded = isExpanded,
-            onDismissRequest = { isExpanded = false }
-        ) {
-            yearsOfContribution.forEach { year ->
-                DropdownMenuItem(
-                    text = { Text(year.toString()) },
-                    onClick = {
-                        onYearClicked(year)
-                    }
-                )
-            }
+    DropdownMenu(
+        expanded = isExpanded,
+        onDismissRequest = { isExpanded = false }
+    ) {
+        yearsOfContribution.forEach { year ->
+            DropdownMenuItem(
+                text = { Text(year.toString()) },
+                onClick = {
+                    onYearClicked(year)
+                }
+            )
         }
     }
 }
