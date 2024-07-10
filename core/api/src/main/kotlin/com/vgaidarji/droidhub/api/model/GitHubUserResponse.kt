@@ -1,7 +1,9 @@
 package com.vgaidarji.droidhub.api.model
 import com.vgaidarji.droidhub.model.GitHubUser
+import com.vgaidarji.droidhub.model.date.DateFormatter
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import java.time.LocalDateTime
 
 @Serializable
 data class GitHubUserResponse(
@@ -54,6 +56,7 @@ data class GitHubUserResponse(
         twitterUserName = twitterUsername ?: "",
         publicRepositoriesCount = publicRepos ?: 0,
         followersCount = followers ?: 0,
-        followingCount = following ?: 0
+        followingCount = following ?: 0,
+        createdAt = LocalDateTime.from(DateFormatter.gitHubApiResponseDate().parse(createdAt))
     )
 }
