@@ -25,6 +25,7 @@ class ContributionsFragment : Fragment() {
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
             setContent {
                 DroidHubTheme {
+                    ContributionsScreen(contributionsViewModel = contributionsViewModel)
                 }
             }
         }
