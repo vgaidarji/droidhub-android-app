@@ -2,6 +2,7 @@ package com.vgaidarji.droidhub.contributions
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.vgaidarji.droidhub.model.contributions.GitHubUserContributions
 import com.vgaidarji.droidhub.repository.GitHubUserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,11 +26,8 @@ class ContributionsViewModel @Inject constructor(
                 gitHubUserRepository.getUser(GITHUB_USER_NAME)
             }.onSuccess { gitHubUser ->
                 val yearsOfContribution = gitHubUser.createdAt.year.rangeTo(LocalDate.now().year)
-                _uiState.value = _uiState.value.copy(
-                    yearsOfContribution = yearsOfContribution,
-                    selectedYear = yearsOfContribution.last,
-                    isLoading = false
-                )
+                val contributions = gitHubUserRepository.getUserContributions(GITHUB_USER_NAME, yearsOfContribution.last)
+                updateDefaultLastYearContributions(yearsOfContribution, contributions)
             }.onFailure { error ->
                 // TODO: handle errors
                 _uiState.value = _uiState.value.copy(isLoading = false, isError = true)
@@ -40,18 +38,38 @@ class ContributionsViewModel @Inject constructor(
     fun loadContributions(owner: String = GITHUB_USER_NAME, selectedYear: Int) {
         viewModelScope.launch {
             runCatching {
+                // TODO: show loading only on for contributions calendar
                 _uiState.value = _uiState.value.copy(isLoading = true)
                 gitHubUserRepository.getUserContributions(owner, selectedYear)
             }.onSuccess { contributions ->
-                _uiState.value = _uiState.value.copy(
-                    gitHubUserContributions = contributions,
-                    selectedYear = selectedYear,
-                    isLoading = false
-                )
+                updateContributionsForSelectedYear(contributions, selectedYear)
             }.onFailure { error ->
                 // TODO: handle errors
                 _uiState.value = _uiState.value.copy(isLoading = false, isError = true)
             }
         }
+    }
+
+    private fun updateContributionsForSelectedYear(
+        contributions: GitHubUserContributions,
+        selectedYear: Int
+    ) {
+        _uiState.value = _uiState.value.copy(
+            gitHubUserContributions = contributions,
+            selectedYear = selectedYear,
+            isLoading = false
+        )
+    }
+
+    private fun updateDefaultLastYearContributions(
+        yearsOfContribution: IntRange,
+        contributions: GitHubUserContributions
+    ) {
+        _uiState.value = _uiState.value.copy(
+            yearsOfContribution = yearsOfContribution,
+            selectedYear = yearsOfContribution.last,
+            gitHubUserContributions = contributions,
+            isLoading = false
+        )
     }
 }

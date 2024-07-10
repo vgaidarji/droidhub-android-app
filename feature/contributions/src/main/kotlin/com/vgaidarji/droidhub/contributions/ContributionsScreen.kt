@@ -25,6 +25,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.vgaidarji.droidhub.base.ui.PreviewWithBackground
 import com.vgaidarji.droidhub.base.ui.component.ProgressView
 import com.vgaidarji.droidhub.base.ui.theme.DroidHubTheme
+import com.vgaidarji.droidhub.model.contributions.GitHubUserContributions
 
 @Composable
 fun ContributionsScreen(
@@ -58,9 +59,18 @@ fun ContributionsScreen(
                     selectedYear = uiState.selectedYear,
                     onYearClicked = onYearClicked
                 )
+                ContributionsCalendar(contributions = uiState.gitHubUserContributions)
             }
         }
     }
+}
+
+@Composable
+fun ContributionsCalendar(
+    modifier: Modifier = Modifier,
+    contributions: GitHubUserContributions
+) {
+    Text(contributions.totalContributions.toString())
 }
 
 @Composable
