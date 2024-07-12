@@ -17,7 +17,7 @@ fun ContributionsCell(contributionsDay: GitHubUserContributionsDay) {
         modifier = Modifier
             .clip(RoundedCornerShape(4.dp))
             .background(Color(android.graphics.Color.parseColor(contributionsDay.color)))
-            .size(24.dp)
+            .size(28.dp)
     ) {
         // show contributions count per day (hidden to match GitHub UI), uncomment for debug
         //Text(text = contributionsDay.contributionCount.toString(), color = Color.White)

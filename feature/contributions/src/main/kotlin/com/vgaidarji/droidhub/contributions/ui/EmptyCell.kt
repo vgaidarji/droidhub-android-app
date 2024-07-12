@@ -15,6 +15,6 @@ fun EmptyCell() {
         modifier = Modifier
             .padding(end = 2.dp)
             .background(Color.Transparent)
-            .size(24.dp)
+            .size(28.dp)
     )
 }

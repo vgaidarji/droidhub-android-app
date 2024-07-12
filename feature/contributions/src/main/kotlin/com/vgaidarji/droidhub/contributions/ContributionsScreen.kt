@@ -40,6 +40,7 @@ import com.vgaidarji.droidhub.base.ui.theme.DroidHubTheme
 import com.vgaidarji.droidhub.contributions.ui.ContributionsCell
 import com.vgaidarji.droidhub.contributions.ui.EmptyCell
 import com.vgaidarji.droidhub.model.contributions.GitHubUserContributions
+import com.vgaidarji.droidhub.model.contributions.GitHubUserContributionsDay
 
 @Composable
 fun ContributionsScreen(
@@ -81,7 +82,9 @@ fun ContributionsHeader(
     onYearClicked: (Int) -> Unit
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(bottom = 8.dp),
         horizontalArrangement = Arrangement.End,
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -122,7 +125,6 @@ fun ContributionsHeader(
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ContributionsCalendar(
-    modifier: Modifier = Modifier,
     contributions: GitHubUserContributions
 ) {
     val pagerState = rememberPagerState(pageCount = {
@@ -130,32 +132,105 @@ fun ContributionsCalendar(
         contributions.months.sumOf { it.totalWeeks }
     })
 
-    HorizontalPager(
-        state = pagerState,
-        pageSize = PageSize.Fixed(28.dp)
-    ) { weekNr ->
-        Column (
-            verticalArrangement = Arrangement.spacedBy(4.dp),
-            modifier = modifier.padding(end = 4.dp)
-        ) {
-            // calculate number of additional empty days to be added
-            var additionalEmptyCells = 0
-            if (contributions.weeks[weekNr].contributionDays.size <= 6) {
-                additionalEmptyCells = 6 - contributions.weeks[weekNr].contributionDays.size + 1
-            }
-            // add empty cells before other days for first week
-            if (weekNr == 0) {
-                repeat(additionalEmptyCells) { EmptyCell() }
-            }
-            // week days with contributions (if any)
-            contributions.weeks[weekNr].contributionDays.forEach { day ->
-                ContributionsCell(contributionsDay = day)
-            }
-            // add empty cells after other days if not first week
-            if (weekNr != 0 && additionalEmptyCells > 0) {
-                repeat(additionalEmptyCells) { EmptyCell() }
+    Row{
+        WeekDaysColumn()
+        Column {
+            HorizontalPager(
+                state = pagerState,
+                pageSize = PageSize.Fixed(32.dp)
+            ) { weekNr ->
+                Column {
+                    ContributionsMonthsNamesHeader(contributions, weekNr)
+                    ContributionsWeekColumn(
+                        contributions.weeks[weekNr].contributionDays,
+                        weekNr
+                    )
+                }
             }
         }
+    }
+}
+
+@Composable
+private fun ContributionsWeekColumn(
+    contributionsInGivenWeek: List<GitHubUserContributionsDay>,
+    weekNr: Int
+) {
+    Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+        // calculate number of additional empty days to be added
+        var additionalEmptyCells = 0
+        if (contributionsInGivenWeek.size <= 6) {
+            additionalEmptyCells =
+                6 - contributionsInGivenWeek.size + 1
+        }
+        // add empty cells before other days for first week
+        if (weekNr == 0) {
+            repeat(additionalEmptyCells) { EmptyCell() }
+        }
+        // week days with contributions (if any)
+        contributionsInGivenWeek.forEach { day ->
+            ContributionsCell(contributionsDay = day)
+        }
+        // add empty cells after other days if not first week
+        if (weekNr != 0 && additionalEmptyCells > 0) {
+            repeat(additionalEmptyCells) { EmptyCell() }
+        }
+    }
+}
+
+/**
+ * Shows month name for a week where first day of the month is found.
+ * Otherwise - should show nothing.
+ * Each month has different number of weeks
+ * so it's important to properly identify the first week for which month should be shown.
+ *
+ * e.g. nr of weeks for year 2020:
+ * Jan 5, Feb 4, Mar 5, Apr 4, May 5, Jun 4,
+ * Jul 4, Aug 5, Sep 4, Oct 4, Nov 5, Dec 4
+ */
+@Composable
+private fun ContributionsMonthsNamesHeader(
+    contributions: GitHubUserContributions,
+    weekNr: Int
+) {
+    Row {
+        Box {
+            var isMonthNameShown = false
+            contributions.months.forEach forEachMonths@ { month ->
+                contributions.weeks[weekNr].contributionDays.forEach { day ->
+                    if (day.date.startsWith(month.firstDay)) {
+                        isMonthNameShown = true
+                        Text(month.name)
+                        return@forEachMonths
+                    }
+                }
+            }
+            if (!isMonthNameShown) {
+                // need to add empty component to preserve the vertical padding
+                Text("")
+            }
+        }
+    }
+}
+
+@Composable
+private fun WeekDaysColumn() {
+    Column (modifier = Modifier.padding(end = 4.dp)) {
+        Text("")
+        Text(
+            modifier = Modifier.padding(top = 34.dp),
+            text = "Mon")
+        Text("")
+        Text(
+            modifier = Modifier.padding(top = 16.dp),
+            text = "Wed"
+        )
+        Text("")
+        Text(
+            modifier = Modifier.padding(top = 16.dp),
+            text = "Fri"
+        )
+        Text("")
     }
 }
 
