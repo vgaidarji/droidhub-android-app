@@ -53,5 +53,6 @@ dependencies {
     implementation(libs.timber)
     implementation(libs.coroutines.core)
     implementation(libs.apollo.runtime)
+    implementation(libs.apollo.adapters)
     implementation(libs.apollo.coroutines)
 }

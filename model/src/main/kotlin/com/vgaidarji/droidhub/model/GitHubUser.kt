@@ -1,5 +1,7 @@
 package com.vgaidarji.droidhub.model
 
+import java.time.LocalDateTime
+
 data class GitHubUser(
     val login: String,
     val id: Int,
@@ -16,7 +18,8 @@ data class GitHubUser(
     val twitterUserName: String,
     val publicRepositoriesCount: Int,
     val followersCount: Int,
-    val followingCount: Int
+    val followingCount: Int,
+    val createdAt: LocalDateTime
 ) {
     companion object {
         val NO_USER = GitHubUser(
@@ -35,7 +38,8 @@ data class GitHubUser(
             twitterUserName = "",
             publicRepositoriesCount = 0,
             followersCount = 0,
-            followingCount = 0
+            followingCount = 0,
+            createdAt = LocalDateTime.MIN
         )
     }
 }

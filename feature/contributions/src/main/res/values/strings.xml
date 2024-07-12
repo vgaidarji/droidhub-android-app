@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="contributions">
+        <item quantity="one">%d contribution in</item>
+        <item quantity="other">%d contributions in</item>
+    </plurals>
+</resources>

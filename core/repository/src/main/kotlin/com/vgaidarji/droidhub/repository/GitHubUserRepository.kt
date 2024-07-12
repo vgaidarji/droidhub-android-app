@@ -5,6 +5,7 @@ import com.vgaidarji.droidhub.api.GitHubUsersGraphQlApi
 import com.vgaidarji.droidhub.model.GitHubRepository
 import com.vgaidarji.droidhub.model.GitHubUser
 import com.vgaidarji.droidhub.model.GitHubUserStatus
+import com.vgaidarji.droidhub.model.contributions.GitHubUserContributions
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -24,5 +25,9 @@ class GitHubUserRepository @Inject constructor(
 
     suspend fun getUserRepositories(owner: String, page: Int, pageSize: Int): List<GitHubRepository> {
         return gitHubUsersApi.getUserRepositories(owner, page, pageSize)
+    }
+
+    suspend fun getUserContributions(owner: String, yearOfContribution: Int): GitHubUserContributions {
+        return gitHubUsersGraphQlApi.getUserContributions(owner, yearOfContribution)
     }
 }

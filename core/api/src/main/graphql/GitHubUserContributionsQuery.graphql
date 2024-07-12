@@ -1,0 +1,24 @@
+# https://docs.github.com/en/graphql/reference/objects#contributioncalendar
+query GitHubUserContributionsQuery($user: String!, $dateFrom: DateTime!, $dateTo: DateTime!) {
+  user(login: $user) {
+    contributionsCollection(from: $dateFrom, to: $dateTo) {
+      contributionCalendar {
+        totalContributions
+        weeks {
+          contributionDays {
+            weekday
+            date
+            contributionCount
+            color
+          }
+        }
+        months  {
+          name
+          year
+          firstDay
+          totalWeeks
+        }
+      }
+    }
+  }
+}

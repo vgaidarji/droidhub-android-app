@@ -42,6 +42,7 @@ import com.vgaidarji.droidhub.base.ui.theme.DroidHubTheme
 import com.vgaidarji.droidhub.base.ui.theme.customColorsPalette
 import com.vgaidarji.droidhub.model.GitHubUser
 import com.vgaidarji.droidhub.model.GitHubUserStatus
+import java.time.LocalDateTime
 import com.vgaidarji.droidhub.base.R as RBase
 
 val contentWidth = 300.dp
@@ -277,7 +278,8 @@ fun ProfileScreenUserPreview() {
         twitterUserName = "v_gaidarji",
         publicRepositoriesCount = 69,
         followersCount = 105,
-        followingCount = 104
+        followingCount = 104,
+        createdAt = LocalDateTime.of(2012, 12, 13, 18, 53, 49) //2012-12-13T18:53:49Z
     )
 
     val userStatus = GitHubUserStatus(
