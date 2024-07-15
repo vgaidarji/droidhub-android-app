@@ -3,7 +3,8 @@ agp = "8.4.2"
 kotlin = "2.0.0"
 kotlinxSerialization = "1.7.0"
 coreKtx = "1.12.0"
-fragmentKtx = "1.7.1"
+activityKtx = "1.8.0"
+fragmentKtx = "1.8.0"
 espressoCore = "3.5.1"
 appcompat = "1.6.1"
 googleMaterial = "1.11.0"
@@ -12,6 +13,8 @@ constraintlayout = "2.1.4"
 lifecycleLivedataKtx = "2.8.1"
 androidxLifecycle = "2.8.1"
 navigationFragmentKtx = "2.7.7"
+navigationCompose = "2.7.7"
+hiltNavigationCompose = "1.2.0"
 androidxFoundation = "1.6.8"
 androidxComposeUi = "1.6.8"
 androidxUiToolingPreviewAndroid = "1.6.8"
@@ -42,8 +45,10 @@ junitVersion = "1.1.5"
 dagger = "2.51.1"
 daggerHilt = "2.51.1"
 
+
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-activity-ktx = { group = "androidx.activity", name = "activity-compose", version.ref = "activityKtx" }
 androidx-fragment-ktx = { group = "androidx.fragment", name = "fragment-ktx", version.ref = "fragmentKtx" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -53,6 +58,8 @@ androidx-lifecycle-livedata-ktx = { group = "androidx.lifecycle", name = "lifecy
 androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "androidxLifecycle" }
 androidx-lifecycle-runtimeCompose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidxLifecycle" }
 androidx-navigation-fragment-ktx = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "navigationFragmentKtx" }
+androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
+androidx-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
 androidx-navigation-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigationUiKtx" }
 androidx-ui-android = { group = "androidx.compose.ui", name = "ui-android", version.ref = "androidxComposeUi" }
 androidx-foundation-android = { group = "androidx.compose.foundation", name = "foundation-android", version.ref = "androidxFoundation" }

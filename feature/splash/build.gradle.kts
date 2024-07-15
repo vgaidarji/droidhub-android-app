@@ -2,13 +2,12 @@ plugins {
     id(libs.plugins.androidLibrary.get().pluginId)
     id(libs.plugins.jetbrainsKotlinAndroid.get().pluginId)
     alias(libs.plugins.composeCompiler)
-    alias(libs.plugins.kotlinSerialization)
     id(libs.plugins.daggerHilt.get().pluginId)
     id(libs.plugins.kotlinKapt.get().pluginId)
 }
 
 android {
-    namespace = "com.vgaidarji.droidhub.contributions"
+    namespace = "com.vgaidarji.droidhub.splash"
     compileSdk = AppConfig.COMPILE_SDK_VERSION
 
     defaultConfig {
@@ -34,16 +33,17 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.ui.android)
-    implementation(libs.androidx.material3.android)
+    implementation(libs.androidx.material)
+    implementation(libs.androidx.paging)
     implementation(libs.androidx.hilt.navigation.compose)
+
+    implementation(libs.dagger)
+    implementation(libs.androidx.material3.android)
     implementation(libs.androidx.lifecycle.runtime.compose.android)
     implementation(libs.androidx.ui.tooling.preview.android)
     debugImplementation(libs.androidx.ui.tooling)
 
-    implementation(libs.kotlinx.serialization)
-
     implementation(libs.timber)
-    implementation(libs.dagger)
 
     kapt(libs.dagger.compiler)
     implementation(libs.dagger.hilt)

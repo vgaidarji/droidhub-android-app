@@ -35,6 +35,7 @@ dependencies {
     implementation(libs.androidx.ui.android)
     implementation(libs.androidx.material)
     implementation(libs.androidx.paging)
+    implementation(libs.androidx.hilt.navigation.compose)
 
     implementation(libs.dagger)
     implementation(libs.androidx.material3.android)

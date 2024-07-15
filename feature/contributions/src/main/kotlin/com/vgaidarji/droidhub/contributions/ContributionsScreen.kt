@@ -32,6 +32,7 @@ import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.vgaidarji.droidhub.base.ui.PreviewWithBackground
 import com.vgaidarji.droidhub.base.ui.component.ProgressView
@@ -45,7 +46,7 @@ import com.vgaidarji.droidhub.model.contributions.GitHubUserContributionsDay
 @Composable
 fun ContributionsScreen(
     modifier: Modifier = Modifier,
-    contributionsViewModel: ContributionsViewModel
+    contributionsViewModel: ContributionsViewModel = hiltViewModel()
 ) {
     val uiState by contributionsViewModel.uiState.collectAsStateWithLifecycle()
     ContributionsScreen(

@@ -2,6 +2,7 @@ plugins {
     // `id` but not `alias` due to https://github.com/gradle/gradle/issues/20084#issuecomment-1060822638
     id(libs.plugins.androidApplication.get().pluginId)
     id(libs.plugins.jetbrainsKotlinAndroid.get().pluginId)
+    alias(libs.plugins.composeCompiler)
     id(libs.plugins.jacocoReports.get().pluginId)
     id(libs.plugins.daggerHilt.get().pluginId)
     id(libs.plugins.kotlinKapt.get().pluginId)
@@ -38,16 +39,19 @@ android {
         jvmTarget = AppConfig.JVM_TARGET
     }
     buildFeatures {
-        viewBinding = true
+        compose = true
     }
 }
 
 dependencies {
+    implementation(project(AppConfig.Modules.BASE))
     implementation(project(AppConfig.Modules.CORE_REPOSITORY))
+    implementation(project(AppConfig.Modules.FEATURE_SPLASH))
     implementation(project(AppConfig.Modules.FEATURE_PROFILE))
     implementation(project(AppConfig.Modules.FEATURE_REPOSITORIES))
     implementation(project(AppConfig.Modules.FEATURE_CONTRIBUTIONS))
 
+    implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.fragment.ktx)
@@ -58,6 +62,11 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtimeCompose)
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.material3.android)
+    implementation(libs.androidx.ui.tooling.preview.android)
+    debugImplementation(libs.androidx.ui.tooling)
+
     implementation(libs.timber)
 
     implementation(libs.dagger)

@@ -34,6 +34,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.text.HtmlCompat
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.vgaidarji.droidhub.base.ui.component.IconWithText
@@ -48,7 +49,10 @@ import com.vgaidarji.droidhub.base.R as RBase
 val contentWidth = 300.dp
 
 @Composable
-fun ProfileScreen(modifier: Modifier = Modifier, profileViewModel: ProfileViewModel) {
+fun ProfileScreen(
+    modifier: Modifier = Modifier,
+    profileViewModel: ProfileViewModel = hiltViewModel()
+) {
     val uiState by profileViewModel.uiState.collectAsStateWithLifecycle()
     ProfileScreen(modifier, uiState)
 }
