@@ -1,5 +1,6 @@
 package com.vgaidarji.droidhub.contributions
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -46,9 +47,13 @@ import com.vgaidarji.droidhub.model.contributions.GitHubUserContributionsDay
 @Composable
 fun ContributionsScreen(
     modifier: Modifier = Modifier,
-    contributionsViewModel: ContributionsViewModel = hiltViewModel()
+    contributionsViewModel: ContributionsViewModel = hiltViewModel(),
+    onBack: () -> Unit
 ) {
     val uiState by contributionsViewModel.uiState.collectAsStateWithLifecycle()
+    BackHandler {
+        onBack()
+    }
     ContributionsScreen(
         modifier,
         { contributionsViewModel.loadContributions(selectedYear = it) },

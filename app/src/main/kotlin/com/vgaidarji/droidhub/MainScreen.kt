@@ -13,6 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavDestination
@@ -25,6 +26,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
+import com.vgaidarji.droidhub.base.ui.findActivity
 import com.vgaidarji.droidhub.contributions.ContributionsScreen
 import com.vgaidarji.droidhub.profile.ProfileScreen
 import com.vgaidarji.droidhub.repositories.RepositoriesScreen
@@ -43,6 +45,7 @@ sealed class Screen(val route: String) {
 fun AppNavigation(
     modifier: Modifier,
     navController: NavHostController,
+    onBack: () -> Unit
 ) {
     NavHost(
         modifier = modifier,
@@ -54,37 +57,44 @@ fun AppNavigation(
                 navController.navigate(Screen.MainScreenRoute.route)
             })
         }
-        mainNavigation()
+        mainNavigation(onBack = onBack)
     }
 }
 
 /**
  * Defines navigation nested graph.
  */
-private fun NavGraphBuilder.mainNavigation() {
+private fun NavGraphBuilder.mainNavigation(onBack: () -> Unit) {
     navigation(
         route = Screen.MainScreenRoute.route,
         startDestination = Screen.Repositories.route
     ) {
         composable(Screen.Repositories.route) {
-            RepositoriesScreen()
+            RepositoriesScreen(onBack = onBack)
         }
         composable(Screen.Profile.route) {
-            ProfileScreen()
+            ProfileScreen(onBack = onBack)
         }
         composable(Screen.Contributions.route) {
-            ContributionsScreen()
+            ContributionsScreen(onBack = onBack)
         }
     }
 }
 
 @Composable
+private fun onBackNavigation(): () -> Unit {
+    val context = LocalContext.current
+    return {
+        context.findActivity()?.finish()
+    }
+}
+
+@Composable
 fun MainScreen(
-    navController: NavHostController = rememberNavController(),
+    navController: NavHostController = rememberNavController()
 ) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
-
 
     Scaffold(
         bottomBar = {
@@ -104,7 +114,7 @@ fun MainScreen(
         },
         containerColor = MaterialTheme.colorScheme.background
     ) { paddingValues ->
-        AppNavigation(Modifier.padding(paddingValues), navController)
+        AppNavigation(Modifier.padding(paddingValues), navController, onBackNavigation())
     }
 }
 

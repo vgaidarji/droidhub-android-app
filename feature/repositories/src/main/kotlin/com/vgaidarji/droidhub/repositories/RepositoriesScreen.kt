@@ -1,5 +1,6 @@
 package com.vgaidarji.droidhub.repositories
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -53,9 +54,13 @@ import com.vgaidarji.droidhub.base.R as RBase
 @Composable
 fun RepositoriesScreen(
     modifier: Modifier = Modifier,
-    repositoriesViewModel: RepositoriesViewModel = hiltViewModel()
+    repositoriesViewModel: RepositoriesViewModel = hiltViewModel(),
+    onBack: () -> Unit
 ) {
     val repositories = repositoriesViewModel.repositories.collectAsLazyPagingItems()
+    BackHandler {
+        onBack()
+    }
     RepositoriesScreen(modifier, repositories)
 }
 

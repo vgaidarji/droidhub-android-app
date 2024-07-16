@@ -1,5 +1,6 @@
 package com.vgaidarji.droidhub.profile
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -51,9 +52,13 @@ val contentWidth = 300.dp
 @Composable
 fun ProfileScreen(
     modifier: Modifier = Modifier,
-    profileViewModel: ProfileViewModel = hiltViewModel()
+    profileViewModel: ProfileViewModel = hiltViewModel(),
+    onBack: () -> Unit
 ) {
     val uiState by profileViewModel.uiState.collectAsStateWithLifecycle()
+    BackHandler {
+        onBack()
+    }
     ProfileScreen(modifier, uiState)
 }
 
