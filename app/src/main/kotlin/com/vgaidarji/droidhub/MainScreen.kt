@@ -1,5 +1,7 @@
 package com.vgaidarji.droidhub
 
+import androidx.annotation.DrawableRes
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
@@ -17,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -28,6 +31,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
 import com.vgaidarji.droidhub.base.ui.findActivity
+import com.vgaidarji.droidhub.base.ui.theme.DroidHubTheme
 import com.vgaidarji.droidhub.base.ui.theme.SystemBarColors
 import com.vgaidarji.droidhub.contributions.ContributionsScreen
 import com.vgaidarji.droidhub.profile.ProfileScreen
@@ -42,6 +46,12 @@ sealed class Screen(val route: String) {
     data object Contributions : Screen("contributions")
     data object MainScreenRoute : Screen("main_navigation_route")
 }
+
+data class NavigationItem(
+    val screen: Screen,
+    @DrawableRes val icon: Int,
+    val label: String,
+)
 
 @Composable
 fun AppNavigation(
@@ -98,12 +108,32 @@ fun MainScreen(
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 
+    val bottomNavigationItems: List<NavigationItem> = listOf(
+        NavigationItem(
+            Screen.Repositories,
+            RBase.drawable.ic_octicons_repo,
+            stringResource(R.string.title_repositories)
+        ),
+        NavigationItem(
+            Screen.Profile,
+            RBase.drawable.ic_octicons_person,
+            stringResource(R.string.title_profile)
+        ),
+        NavigationItem(
+            Screen.Contributions,
+            RBase.drawable.ic_octicons_calendar,
+            stringResource(R.string.title_contributions)
+        )
+    )
+
     SystemBarColors()
 
     Scaffold(
         bottomBar = {
             MainBottomNavigation(
-                modifier = Modifier.fillMaxWidth().navigationBarsPadding(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .navigationBarsPadding(),
                 currentDestination = currentDestination,
                 onNavigationSelected = { screen ->
                     navController.navigate(screen.route) {
@@ -113,7 +143,8 @@ fun MainScreen(
                         launchSingleTop = true
                         restoreState = true
                     }
-                }
+                },
+                navigationItems = bottomNavigationItems
             )
         },
         containerColor = MaterialTheme.colorScheme.background
@@ -126,38 +157,65 @@ fun MainScreen(
 fun MainBottomNavigation(
     modifier: Modifier,
     currentDestination: NavDestination?,
-    onNavigationSelected: (Screen) -> Unit
+    onNavigationSelected: (Screen) -> Unit,
+    navigationItems: List<NavigationItem>
 ) {
     BottomNavigation(
         modifier = modifier,
         backgroundColor = MaterialTheme.colorScheme.surface,
         contentColor = contentColorFor(MaterialTheme.colorScheme.surface),
     ) {
-        BottomNavigationItem(
-            icon = { Icon(painterResource(RBase.drawable.ic_octicons_repo), null) },
-            label = { Text(stringResource(id = R.string.title_repositories)) },
-            selected = currentDestination?.hierarchy?.any { it.route == Screen.Repositories.route } == true,
-            onClick = { onNavigationSelected(Screen.Repositories) },
-            selectedContentColor = MaterialTheme.colorScheme.primary,
-            unselectedContentColor = MaterialTheme.colorScheme.onSurface.copy(alpha = ContentAlpha.disabled),
-        )
+        navigationItems.forEach { navigationItem ->
+            BottomNavigationItem(
+                icon = { Icon(painterResource(navigationItem.icon), null) },
+                label = { Text(navigationItem.label) },
+                selected = currentDestination?.hierarchy?.any { it.route == navigationItem.screen.route } == true,
+                selectedContentColor = MaterialTheme.colorScheme.primary,
+                unselectedContentColor = MaterialTheme.colorScheme.onSurface.copy(alpha = ContentAlpha.disabled),
+                onClick = { onNavigationSelected(navigationItem.screen) }
+            )
+        }
+    }
+}
 
-        BottomNavigationItem(
-            icon = { Icon(painterResource(RBase.drawable.ic_octicons_person), null) },
-            label = { Text(stringResource(id = R.string.title_profile)) },
-            selected = currentDestination?.hierarchy?.any { it.route == Screen.Profile.route } == true,
-            onClick = { onNavigationSelected(Screen.Profile) },
-            selectedContentColor = MaterialTheme.colorScheme.primary,
-            unselectedContentColor = MaterialTheme.colorScheme.onSurface.copy(alpha = ContentAlpha.disabled),
+@Preview(showBackground = true)
+@Composable
+fun BottomNavigationBarPreview() {
+    val bottomBarItems: List<NavigationItem> = listOf(
+        NavigationItem(
+            Screen.Repositories,
+            RBase.drawable.ic_octicons_repo,
+            stringResource(R.string.title_repositories)
+        ),
+        NavigationItem(
+            Screen.Profile,
+            RBase.drawable.ic_octicons_person,
+            stringResource(R.string.title_profile)
+        ),
+        NavigationItem(
+            Screen.Contributions,
+            RBase.drawable.ic_octicons_calendar,
+            stringResource(R.string.title_contributions)
         )
+    )
 
-        BottomNavigationItem(
-            icon = { Icon(painterResource(RBase.drawable.ic_octicons_calendar), null) },
-            label = { Text(stringResource(id = R.string.title_contributions)) },
-            selected = currentDestination?.hierarchy?.any { it.route == Screen.Contributions.route } == true,
-            onClick = { onNavigationSelected(Screen.Contributions) },
-            selectedContentColor = MaterialTheme.colorScheme.primary,
-            unselectedContentColor = MaterialTheme.colorScheme.onSurface.copy(alpha = ContentAlpha.disabled),
-        )
+    val navBackStackEntry by rememberNavController().currentBackStackEntryAsState()
+    val currentDestination = navBackStackEntry?.destination
+
+    DroidHubTheme {
+        Scaffold(
+            bottomBar = {
+                MainBottomNavigation(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    currentDestination = currentDestination,
+                    onNavigationSelected = {},
+                    navigationItems = bottomBarItems
+                )
+            },
+            containerColor = MaterialTheme.colorScheme.background
+        ) { paddingValues ->
+            Box(modifier = Modifier.padding(paddingValues))
+        }
     }
 }
