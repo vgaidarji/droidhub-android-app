@@ -16,12 +16,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.NavDestination
-import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -31,6 +30,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
 import com.vgaidarji.droidhub.base.ui.findActivity
+import com.vgaidarji.droidhub.base.ui.theme.Blue
 import com.vgaidarji.droidhub.base.ui.theme.DroidHubTheme
 import com.vgaidarji.droidhub.base.ui.theme.SystemBarColors
 import com.vgaidarji.droidhub.contributions.ContributionsScreen
@@ -134,7 +134,7 @@ fun MainScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .navigationBarsPadding(),
-                currentDestination = currentDestination,
+                currentDestinationRoute = currentDestination?.route,
                 onNavigationSelected = { screen ->
                     navController.navigate(screen.route) {
                         popUpTo(navController.graph.findStartDestination().id) {
@@ -156,7 +156,7 @@ fun MainScreen(
 @Composable
 fun MainBottomNavigation(
     modifier: Modifier,
-    currentDestination: NavDestination?,
+    currentDestinationRoute: String?,
     onNavigationSelected: (Screen) -> Unit,
     navigationItems: List<NavigationItem>
 ) {
@@ -166,10 +166,21 @@ fun MainBottomNavigation(
         contentColor = contentColorFor(MaterialTheme.colorScheme.surface),
     ) {
         navigationItems.forEach { navigationItem ->
+            val isSelected = navigationItem.screen.route == currentDestinationRoute
+            val itemColor = if (isSelected) Blue else Color.DarkGray
             BottomNavigationItem(
-                icon = { Icon(painterResource(navigationItem.icon), null) },
-                label = { Text(navigationItem.label) },
-                selected = currentDestination?.hierarchy?.any { it.route == navigationItem.screen.route } == true,
+                icon = { Icon(
+                    painterResource(navigationItem.icon),
+                    null,
+                    tint = itemColor
+                ) },
+                label = {
+                    Text(
+                        text = navigationItem.label,
+                        color = itemColor
+                    )
+                },
+                selected = isSelected,
                 selectedContentColor = MaterialTheme.colorScheme.primary,
                 unselectedContentColor = MaterialTheme.colorScheme.onSurface.copy(alpha = ContentAlpha.disabled),
                 onClick = { onNavigationSelected(navigationItem.screen) }
@@ -199,16 +210,13 @@ fun BottomNavigationBarPreview() {
         )
     )
 
-    val navBackStackEntry by rememberNavController().currentBackStackEntryAsState()
-    val currentDestination = navBackStackEntry?.destination
-
     DroidHubTheme {
         Scaffold(
             bottomBar = {
                 MainBottomNavigation(
                     modifier = Modifier
                         .fillMaxWidth(),
-                    currentDestination = currentDestination,
+                    currentDestinationRoute = Screen.Repositories.route ,
                     onNavigationSelected = {},
                     navigationItems = bottomBarItems
                 )
