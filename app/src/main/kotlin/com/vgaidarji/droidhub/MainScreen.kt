@@ -169,11 +169,13 @@ fun MainBottomNavigation(
             val isSelected = navigationItem.screen.route == currentDestinationRoute
             val itemColor = if (isSelected) Blue else Color.DarkGray
             BottomNavigationItem(
-                icon = { Icon(
-                    painterResource(navigationItem.icon),
-                    null,
-                    tint = itemColor
-                ) },
+                icon = {
+                    Icon(
+                        painterResource(navigationItem.icon),
+                        null,
+                        tint = itemColor
+                    )
+                },
                 label = {
                     Text(
                         text = navigationItem.label,
@@ -216,7 +218,7 @@ fun BottomNavigationBarPreview() {
                 MainBottomNavigation(
                     modifier = Modifier
                         .fillMaxWidth(),
-                    currentDestinationRoute = Screen.Repositories.route ,
+                    currentDestinationRoute = Screen.Repositories.route,
                     onNavigationSelected = {},
                     navigationItems = bottomBarItems
                 )

@@ -74,7 +74,7 @@ fun RepositoriesScreen(
         when (repositories.loadState.refresh) {
             LoadState.Loading -> {
                 item {
-                    PaginationLoadingItem(circularProgressSize = 64.dp)
+                    PaginationLoadingItem()
                 }
             }
 
