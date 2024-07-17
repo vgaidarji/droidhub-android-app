@@ -3,7 +3,6 @@ package com.vgaidarji.droidhub.splash
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -32,7 +31,6 @@ fun SplashScreen(modifier: Modifier = Modifier, uiState: SplashUiState, onNaviga
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         if (uiState.isLoading) {
-            Text("Splash")
             ProgressView()
         } else {
             onNavigateToHomeScreen()
