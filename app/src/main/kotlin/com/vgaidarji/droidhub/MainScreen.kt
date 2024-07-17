@@ -1,6 +1,7 @@
 package com.vgaidarji.droidhub
 
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
@@ -27,6 +28,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
 import com.vgaidarji.droidhub.base.ui.findActivity
+import com.vgaidarji.droidhub.base.ui.theme.SystemBarColors
 import com.vgaidarji.droidhub.contributions.ContributionsScreen
 import com.vgaidarji.droidhub.profile.ProfileScreen
 import com.vgaidarji.droidhub.repositories.RepositoriesScreen
@@ -96,10 +98,12 @@ fun MainScreen(
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 
+    SystemBarColors()
+
     Scaffold(
         bottomBar = {
             MainBottomNavigation(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth().navigationBarsPadding(),
                 currentDestination = currentDestination,
                 onNavigationSelected = { screen ->
                     navController.navigate(screen.route) {
