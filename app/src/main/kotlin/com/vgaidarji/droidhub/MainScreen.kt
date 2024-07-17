@@ -130,22 +130,24 @@ fun MainScreen(
 
     Scaffold(
         bottomBar = {
-            MainBottomNavigation(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .navigationBarsPadding(),
-                currentDestinationRoute = currentDestination?.route,
-                onNavigationSelected = { screen ->
-                    navController.navigate(screen.route) {
-                        popUpTo(navController.graph.findStartDestination().id) {
-                            saveState = true
+            if (currentDestination?.route != Screen.Splash.route) {
+                MainBottomNavigation(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .navigationBarsPadding(),
+                    currentDestinationRoute = currentDestination?.route,
+                    onNavigationSelected = { screen ->
+                        navController.navigate(screen.route) {
+                            popUpTo(navController.graph.findStartDestination().id) {
+                                saveState = true
+                            }
+                            launchSingleTop = true
+                            restoreState = true
                         }
-                        launchSingleTop = true
-                        restoreState = true
-                    }
-                },
-                navigationItems = bottomNavigationItems
-            )
+                    },
+                    navigationItems = bottomNavigationItems
+                )
+            }
         },
         containerColor = MaterialTheme.colorScheme.background
     ) { paddingValues ->
