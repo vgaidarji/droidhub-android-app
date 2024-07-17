@@ -1,5 +1,6 @@
 package com.vgaidarji.droidhub.repositories
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -26,6 +27,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.LoadStates
 import androidx.paging.PagingData
@@ -52,10 +54,14 @@ import com.vgaidarji.droidhub.base.R as RBase
 @Composable
 fun RepositoriesScreen(
     modifier: Modifier = Modifier,
-    repositoriesViewModel: RepositoriesViewModel
+    repositoriesViewModel: RepositoriesViewModel = hiltViewModel(),
+    onBack: () -> Unit
 ) {
     val repositories = repositoriesViewModel.repositories.collectAsLazyPagingItems()
-    RepositoriesScreen(modifier, repositories)
+    BackHandler {
+        onBack()
+    }
+    RepositoriesScreen(modifier.fillMaxSize(), repositories)
 }
 
 @Composable
@@ -68,7 +74,7 @@ fun RepositoriesScreen(
         when (repositories.loadState.refresh) {
             LoadState.Loading -> {
                 item {
-                    PaginationLoadingItem(circularProgressSize = 64.dp)
+                    PaginationLoadingItem()
                 }
             }
 

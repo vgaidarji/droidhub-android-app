@@ -1,5 +1,6 @@
 package com.vgaidarji.droidhub.contributions
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -32,6 +33,7 @@ import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.vgaidarji.droidhub.base.ui.PreviewWithBackground
 import com.vgaidarji.droidhub.base.ui.component.ProgressView
@@ -45,9 +47,13 @@ import com.vgaidarji.droidhub.model.contributions.GitHubUserContributionsDay
 @Composable
 fun ContributionsScreen(
     modifier: Modifier = Modifier,
-    contributionsViewModel: ContributionsViewModel
+    contributionsViewModel: ContributionsViewModel = hiltViewModel(),
+    onBack: () -> Unit
 ) {
     val uiState by contributionsViewModel.uiState.collectAsStateWithLifecycle()
+    BackHandler {
+        onBack()
+    }
     ContributionsScreen(
         modifier,
         { contributionsViewModel.loadContributions(selectedYear = it) },
@@ -64,7 +70,7 @@ fun ContributionsScreen(
     if (uiState.isLoading) {
         ProgressView()
     } else {
-        Surface(modifier, color = MaterialTheme.colorScheme.background) {
+        Surface(modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
             Column(
                 modifier.padding(8.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,

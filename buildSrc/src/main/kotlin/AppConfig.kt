@@ -19,6 +19,7 @@ class AppConfig {
             const val CORE_REPOSITORY = ":core:repository"
             const val CORE_API = ":core:api"
 
+            const val FEATURE_SPLASH = ":feature:splash"
             const val FEATURE_PROFILE = ":feature:profile"
             const val FEATURE_REPOSITORIES = ":feature:repositories"
             const val FEATURE_CONTRIBUTIONS = ":feature:contributions"

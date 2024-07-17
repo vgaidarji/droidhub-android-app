@@ -1,5 +1,6 @@
 package com.vgaidarji.droidhub.profile
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -34,6 +35,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.text.HtmlCompat
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.vgaidarji.droidhub.base.ui.component.IconWithText
@@ -48,8 +50,15 @@ import com.vgaidarji.droidhub.base.R as RBase
 val contentWidth = 300.dp
 
 @Composable
-fun ProfileScreen(modifier: Modifier = Modifier, profileViewModel: ProfileViewModel) {
+fun ProfileScreen(
+    modifier: Modifier = Modifier,
+    profileViewModel: ProfileViewModel = hiltViewModel(),
+    onBack: () -> Unit
+) {
     val uiState by profileViewModel.uiState.collectAsStateWithLifecycle()
+    BackHandler {
+        onBack()
+    }
     ProfileScreen(modifier, uiState)
 }
 
@@ -58,7 +67,7 @@ fun ProfileScreen(modifier: Modifier = Modifier, uiState: ProfileUiState) {
     if (uiState.isLoading) {
         ProgressView()
     } else {
-        Surface(modifier, color = MaterialTheme.colorScheme.background) {
+        Surface(modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
             Column(
                 modifier.padding(8.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
