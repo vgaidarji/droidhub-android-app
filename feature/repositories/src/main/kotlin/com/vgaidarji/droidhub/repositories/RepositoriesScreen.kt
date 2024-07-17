@@ -61,7 +61,7 @@ fun RepositoriesScreen(
     BackHandler {
         onBack()
     }
-    RepositoriesScreen(modifier, repositories)
+    RepositoriesScreen(modifier.fillMaxSize(), repositories)
 }
 
 @Composable

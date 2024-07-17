@@ -67,7 +67,7 @@ fun ProfileScreen(modifier: Modifier = Modifier, uiState: ProfileUiState) {
     if (uiState.isLoading) {
         ProgressView()
     } else {
-        Surface(modifier, color = MaterialTheme.colorScheme.background) {
+        Surface(modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
             Column(
                 modifier.padding(8.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
