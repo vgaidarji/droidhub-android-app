@@ -21,6 +21,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavDestination
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -37,10 +38,12 @@ import com.vgaidarji.droidhub.contributions.ContributionsScreen
 import com.vgaidarji.droidhub.profile.ProfileScreen
 import com.vgaidarji.droidhub.repositories.RepositoriesScreen
 import com.vgaidarji.droidhub.splash.SplashScreen
+import com.vgaidarji.droidhub.splash.UserNameScreen
 import com.vgaidarji.droidhub.base.R as RBase
 
 sealed class Screen(val route: String) {
     data object Splash : Screen("splash")
+    data object UserName : Screen("user_name")
     data object Repositories : Screen("repositories")
     data object Profile : Screen("profile")
     data object Contributions : Screen("contributions")
@@ -65,7 +68,12 @@ fun AppNavigation(
         startDestination = Screen.Splash.route,
     ) {
         composable(Screen.Splash.route) {
-            SplashScreen(onNavigateToHomeScreen = {
+            SplashScreen(onNavigateToNextScreen = {
+                navController.navigate(Screen.UserName.route)
+            })
+        }
+        composable(Screen.UserName.route) {
+            UserNameScreen(onNavigateToHomeScreen = {
                 navController.navigate(Screen.MainScreenRoute.route)
             })
         }
@@ -130,7 +138,7 @@ fun MainScreen(
 
     Scaffold(
         bottomBar = {
-            if (currentDestination?.route != Screen.Splash.route) {
+            if (shouldShowBottomNavigation(currentDestination)) {
                 MainBottomNavigation(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -154,6 +162,11 @@ fun MainScreen(
         AppNavigation(Modifier.padding(paddingValues), navController, onBackNavigation())
     }
 }
+
+@Composable
+private fun shouldShowBottomNavigation(currentDestination: NavDestination?) =
+    currentDestination?.route != Screen.Splash.route ||
+            currentDestination.route != Screen.UserName.route
 
 @Composable
 fun MainBottomNavigation(

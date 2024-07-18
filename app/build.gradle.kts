@@ -50,6 +50,7 @@ dependencies {
     implementation(project(AppConfig.Modules.FEATURE_PROFILE))
     implementation(project(AppConfig.Modules.FEATURE_REPOSITORIES))
     implementation(project(AppConfig.Modules.FEATURE_CONTRIBUTIONS))
+    implementation(project(AppConfig.Modules.FEATURE_USER_NAME))
 
     implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.core.ktx)

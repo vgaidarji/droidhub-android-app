@@ -17,14 +17,14 @@ import com.vgaidarji.droidhub.base.ui.theme.DroidHubTheme
 fun SplashScreen(
     modifier: Modifier = Modifier,
     splashViewModel: SplashViewModel = hiltViewModel(),
-    onNavigateToHomeScreen: () -> Unit
+    onNavigateToNextScreen: () -> Unit
 ) {
     val uiState by splashViewModel.uiState.collectAsStateWithLifecycle()
-    SplashScreen(modifier, uiState, onNavigateToHomeScreen = onNavigateToHomeScreen)
+    SplashScreen(modifier, uiState, onNavigateToNextScreen = onNavigateToNextScreen)
 }
 
 @Composable
-fun SplashScreen(modifier: Modifier = Modifier, uiState: SplashUiState, onNavigateToHomeScreen: () -> Unit ) {
+fun SplashScreen(modifier: Modifier = Modifier, uiState: SplashUiState, onNavigateToNextScreen: () -> Unit ) {
     Column(
         modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
@@ -33,7 +33,7 @@ fun SplashScreen(modifier: Modifier = Modifier, uiState: SplashUiState, onNaviga
         if (uiState.isLoading) {
             ProgressView()
         } else {
-            onNavigateToHomeScreen()
+            onNavigateToNextScreen()
         }
     }
 }
