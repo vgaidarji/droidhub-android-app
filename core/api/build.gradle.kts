@@ -18,6 +18,8 @@ android {
 
         val githubApiToken: String = gradleLocalProperties(rootDir, providers).getProperty("GITHUB_API_TOKEN") ?: "\"\""
         buildConfigField("String", "GITHUB_API_TOKEN", githubApiToken)
+        val githubUserName: String = gradleLocalProperties(rootDir, providers).getProperty("GITHUB_USER_NAME") ?: "\"\""
+        buildConfigField("String", "GITHUB_USER_NAME", githubUserName)
     }
 
     buildFeatures {

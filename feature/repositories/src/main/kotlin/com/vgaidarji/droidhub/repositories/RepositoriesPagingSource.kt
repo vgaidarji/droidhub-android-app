@@ -6,7 +6,8 @@ import com.vgaidarji.droidhub.model.GitHubRepository
 import com.vgaidarji.droidhub.repository.GitHubUserRepository
 
 class RepositoriesPagingSource(
-    private val gitHubUserRepository: GitHubUserRepository
+    private val gitHubUserRepository: GitHubUserRepository,
+    private val gitHubUserName: String
 ) : PagingSource<Int, GitHubRepository>() {
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, GitHubRepository> =
         try {
@@ -17,7 +18,7 @@ class RepositoriesPagingSource(
             // withContext(Dispatcher.IO) { ... } block since Retrofit's Coroutine
             // CallAdapter dispatches on a worker thread.
             val repositories = gitHubUserRepository.getUserRepositories(
-                GITHUB_USER_NAME, page = pageNumber, pageSize = PAGE_SIZE
+                gitHubUserName, page = pageNumber, pageSize = PAGE_SIZE
             )
             // Since 0 is the lowest page number, return null to signify no more pages should
             // be loaded before it.
@@ -39,7 +40,5 @@ class RepositoriesPagingSource(
 
     companion object {
         const val PAGE_SIZE = 20
-        // TODO: parametrize to allow for loading arbitrary user's profile
-        const val GITHUB_USER_NAME = "vgaidarji"
     }
 }

@@ -38,6 +38,7 @@ import androidx.core.text.HtmlCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
+import com.vgaidarji.droidhub.api.BuildConfig
 import com.vgaidarji.droidhub.base.ui.component.IconWithText
 import com.vgaidarji.droidhub.base.ui.component.ProgressView
 import com.vgaidarji.droidhub.base.ui.theme.DroidHubTheme
@@ -52,9 +53,12 @@ val contentWidth = 300.dp
 @Composable
 fun ProfileScreen(
     modifier: Modifier = Modifier,
-    profileViewModel: ProfileViewModel = hiltViewModel(),
+    gitHubUserName: String = BuildConfig.GITHUB_USER_NAME,
     onBack: () -> Unit
 ) {
+    val profileViewModel: ProfileViewModel = hiltViewModel<ProfileViewModel, ProfileViewModel.ProfileViewModelFactory> { factory ->
+        factory.create(gitHubUserName)
+    }
     val uiState by profileViewModel.uiState.collectAsStateWithLifecycle()
     BackHandler {
         onBack()

@@ -23,7 +23,9 @@ Main building blocks
 # Project configuration
 
 GitHub requires personal access token to access the API ([link](https://docs.github.com/en/rest/authentication/authenticating-to-the-rest-api?apiVersion=2022-11-28#authenticating-with-a-personal-access-token)).
+
 Make sure `GITHUB_API_TOKEN` variable is set in `local.properties` file for GitHub API to work.
+Also, to change the default GitHub user to be used in app change `GITHUB_USER_NAME` in `local.properties`.
 
 # License
 -------
