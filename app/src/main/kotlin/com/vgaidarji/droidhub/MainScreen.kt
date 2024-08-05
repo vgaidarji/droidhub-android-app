@@ -80,9 +80,12 @@ fun AppNavigation(
             })
         }
         composable(Screen.UserName.route) {
-            UserNameScreen(onNavigateToHomeScreen = {
-                navController.navigate(Screen.MainScreenRoute.route)
-            })
+            UserNameScreen(
+                onNavigateToHomeScreen = {
+                    navController.navigate(Screen.MainScreenRoute.route)
+                },
+                onBack = onBack
+            )
         }
         mainNavigation(uiState, onBack = onBack)
     }
@@ -170,7 +173,12 @@ fun MainScreen(
         },
         containerColor = MaterialTheme.colorScheme.background
     ) { paddingValues ->
-        AppNavigation(Modifier.padding(paddingValues), navController, gitHubUserNameViewModel, onBackNavigation())
+        AppNavigation(
+            Modifier.padding(paddingValues),
+            navController,
+            gitHubUserNameViewModel,
+            onBackNavigation()
+        )
     }
 }
 

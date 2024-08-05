@@ -1,5 +1,6 @@
 package com.vgaidarji.droidhub.splash
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -26,8 +27,13 @@ import com.vgaidarji.droidhub.base.viewmodel.GitHubUserNameViewModel
 fun UserNameScreen(
     modifier: Modifier = Modifier,
     gitHubUserNameViewModel: GitHubUserNameViewModel = hiltViewModel(),
-    onNavigateToHomeScreen: () -> Unit
+    onNavigateToHomeScreen: () -> Unit,
+    onBack: () -> Unit
 ) {
+    BackHandler {
+        onBack()
+    }
+
     Column(
         modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
@@ -56,6 +62,6 @@ fun UserNameScreen(
 @Composable
 fun UserNameScreenPreview() {
     DroidHubTheme {
-        UserNameScreen(modifier = Modifier.fillMaxSize(), GitHubUserNameViewModel(), {})
+        UserNameScreen(modifier = Modifier.fillMaxSize(), GitHubUserNameViewModel(), {}, {})
     }
 }
