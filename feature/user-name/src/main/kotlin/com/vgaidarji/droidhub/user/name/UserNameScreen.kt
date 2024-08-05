@@ -16,13 +16,16 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.vgaidarji.droidhub.api.BuildConfig
 import com.vgaidarji.droidhub.base.ui.PreviewWithBackground
 import com.vgaidarji.droidhub.base.ui.theme.DroidHubTheme
+import com.vgaidarji.droidhub.base.viewmodel.GitHubUserNameViewModel
 
 @Composable
 fun UserNameScreen(
     modifier: Modifier = Modifier,
+    gitHubUserNameViewModel: GitHubUserNameViewModel = hiltViewModel(),
     onNavigateToHomeScreen: () -> Unit
 ) {
     Column(
@@ -30,15 +33,19 @@ fun UserNameScreen(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        var text by remember { mutableStateOf(BuildConfig.GITHUB_USER_NAME) }
+        var userName by remember { mutableStateOf(BuildConfig.GITHUB_USER_NAME) }
         Row(verticalAlignment = Alignment.CenterVertically) {
             TextField(
-                value = text,
-                onValueChange = { text = it },
+                value = userName,
+                onValueChange = { userName = it },
                 label = { Text("github.com/") }
             )
             Button(modifier = Modifier.padding(start = 4.dp),
-                onClick = { onNavigateToHomeScreen() }) {
+                onClick = {
+                    gitHubUserNameViewModel.updateUser(userName)
+                    onNavigateToHomeScreen()
+                })
+            {
                 Text("GO")
             }
         }
@@ -49,6 +56,6 @@ fun UserNameScreen(
 @Composable
 fun UserNameScreenPreview() {
     DroidHubTheme {
-        UserNameScreen(modifier = Modifier.fillMaxSize(), {})
+        UserNameScreen(modifier = Modifier.fillMaxSize(), GitHubUserNameViewModel(), {})
     }
 }

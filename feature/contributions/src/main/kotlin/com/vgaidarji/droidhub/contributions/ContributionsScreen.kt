@@ -35,11 +35,11 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.vgaidarji.droidhub.api.BuildConfig
 import com.vgaidarji.droidhub.base.ui.PreviewWithBackground
 import com.vgaidarji.droidhub.base.ui.component.ProgressView
 import com.vgaidarji.droidhub.base.ui.theme.Blue
 import com.vgaidarji.droidhub.base.ui.theme.DroidHubTheme
+import com.vgaidarji.droidhub.base.viewmodel.GitHubUserNameViewModel
 import com.vgaidarji.droidhub.contributions.ui.ContributionsCell
 import com.vgaidarji.droidhub.contributions.ui.EmptyCell
 import com.vgaidarji.droidhub.model.contributions.GitHubUserContributions
@@ -48,7 +48,7 @@ import com.vgaidarji.droidhub.model.contributions.GitHubUserContributionsDay
 @Composable
 fun ContributionsScreen(
     modifier: Modifier = Modifier,
-    gitHubUserName: String = BuildConfig.GITHUB_USER_NAME,
+    gitHubUserName: String,
     onBack: () -> Unit
 ) {
     val contributionsViewModel: ContributionsViewModel = hiltViewModel<ContributionsViewModel, ContributionsViewModel.ContributionsViewModelFactory> { factory ->

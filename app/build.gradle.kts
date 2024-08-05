@@ -68,6 +68,7 @@ dependencies {
     implementation(libs.androidx.material)
     implementation(libs.androidx.ui.tooling.preview.android)
     debugImplementation(libs.androidx.ui.tooling)
+    implementation(libs.androidx.hilt.navigation.compose)
 
     implementation(libs.timber)
 

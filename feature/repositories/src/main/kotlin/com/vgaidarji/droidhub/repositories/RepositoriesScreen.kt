@@ -33,7 +33,6 @@ import androidx.paging.LoadStates
 import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
-import com.vgaidarji.droidhub.api.BuildConfig
 import com.vgaidarji.droidhub.base.ui.PreviewWithBackground
 import com.vgaidarji.droidhub.base.ui.component.IconWithText
 import com.vgaidarji.droidhub.base.ui.theme.Blue
@@ -55,7 +54,7 @@ import com.vgaidarji.droidhub.base.R as RBase
 @Composable
 fun RepositoriesScreen(
     modifier: Modifier = Modifier,
-    gitHubUserName: String = BuildConfig.GITHUB_USER_NAME,
+    gitHubUserName: String,
     onBack: () -> Unit
 ) {
     val repositoriesViewModel: RepositoriesViewModel = hiltViewModel<RepositoriesViewModel, RepositoriesViewModel.RepositoriesViewModelFactory> { factory ->
