@@ -2,6 +2,8 @@
 
 [![Build/Test](https://github.com/vgaidarji/droidhub-android-app/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/vgaidarji/droidhub-android-app/actions/workflows/main.yml)
 
+<img src="/screenshots/app-showcase.gif" align="right" width="280">
+
 Sample GitHub Android application built with [Jetpack Compose](https://developer.android.com/develop/ui/compose).
 GitHub [REST API](https://docs.github.com/en/rest) and [GraphQL API](https://docs.github.com/en/graphql) used to fetch different information from GitHub.
 This is because GitHub doesn't expose all data via REST API and GraphQL API version is more rich.
