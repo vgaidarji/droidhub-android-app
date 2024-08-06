@@ -39,6 +39,7 @@ import com.vgaidarji.droidhub.base.ui.PreviewWithBackground
 import com.vgaidarji.droidhub.base.ui.component.ProgressView
 import com.vgaidarji.droidhub.base.ui.theme.Blue
 import com.vgaidarji.droidhub.base.ui.theme.DroidHubTheme
+import com.vgaidarji.droidhub.base.viewmodel.GitHubUserNameViewModel
 import com.vgaidarji.droidhub.contributions.ui.ContributionsCell
 import com.vgaidarji.droidhub.contributions.ui.EmptyCell
 import com.vgaidarji.droidhub.model.contributions.GitHubUserContributions
@@ -47,9 +48,12 @@ import com.vgaidarji.droidhub.model.contributions.GitHubUserContributionsDay
 @Composable
 fun ContributionsScreen(
     modifier: Modifier = Modifier,
-    contributionsViewModel: ContributionsViewModel = hiltViewModel(),
+    gitHubUserName: String,
     onBack: () -> Unit
 ) {
+    val contributionsViewModel: ContributionsViewModel = hiltViewModel<ContributionsViewModel, ContributionsViewModel.ContributionsViewModelFactory> { factory ->
+        factory.create(gitHubUserName)
+    }
     val uiState by contributionsViewModel.uiState.collectAsStateWithLifecycle()
     BackHandler {
         onBack()

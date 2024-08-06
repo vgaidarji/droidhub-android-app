@@ -21,6 +21,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavDestination
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -33,14 +36,18 @@ import com.vgaidarji.droidhub.base.ui.findActivity
 import com.vgaidarji.droidhub.base.ui.theme.Blue
 import com.vgaidarji.droidhub.base.ui.theme.DroidHubTheme
 import com.vgaidarji.droidhub.base.ui.theme.SystemBarColors
+import com.vgaidarji.droidhub.base.viewmodel.GitHubUserNameUiState
+import com.vgaidarji.droidhub.base.viewmodel.GitHubUserNameViewModel
 import com.vgaidarji.droidhub.contributions.ContributionsScreen
 import com.vgaidarji.droidhub.profile.ProfileScreen
 import com.vgaidarji.droidhub.repositories.RepositoriesScreen
 import com.vgaidarji.droidhub.splash.SplashScreen
+import com.vgaidarji.droidhub.splash.UserNameScreen
 import com.vgaidarji.droidhub.base.R as RBase
 
 sealed class Screen(val route: String) {
     data object Splash : Screen("splash")
+    data object UserName : Screen("user_name")
     data object Repositories : Screen("repositories")
     data object Profile : Screen("profile")
     data object Contributions : Screen("contributions")
@@ -57,38 +64,52 @@ data class NavigationItem(
 fun AppNavigation(
     modifier: Modifier,
     navController: NavHostController,
+    gitHubUserNameViewModel: GitHubUserNameViewModel,
     onBack: () -> Unit
 ) {
+    val uiState by gitHubUserNameViewModel.uiState.collectAsStateWithLifecycle()
+
     NavHost(
         modifier = modifier,
         navController = navController,
         startDestination = Screen.Splash.route,
     ) {
         composable(Screen.Splash.route) {
-            SplashScreen(onNavigateToHomeScreen = {
-                navController.navigate(Screen.MainScreenRoute.route)
+            SplashScreen(onNavigateToNextScreen = {
+                navController.navigate(Screen.UserName.route)
             })
         }
-        mainNavigation(onBack = onBack)
+        composable(Screen.UserName.route) {
+            UserNameScreen(
+                onNavigateToHomeScreen = {
+                    navController.navigate(Screen.MainScreenRoute.route)
+                },
+                onBack = onBack
+            )
+        }
+        mainNavigation(uiState, onBack = onBack)
     }
 }
 
 /**
  * Defines navigation nested graph.
  */
-private fun NavGraphBuilder.mainNavigation(onBack: () -> Unit) {
+private fun NavGraphBuilder.mainNavigation(
+    uiState: GitHubUserNameUiState,
+    onBack: () -> Unit
+) {
     navigation(
         route = Screen.MainScreenRoute.route,
         startDestination = Screen.Repositories.route
     ) {
         composable(Screen.Repositories.route) {
-            RepositoriesScreen(onBack = onBack)
+            RepositoriesScreen(gitHubUserName = uiState.userName, onBack = onBack)
         }
         composable(Screen.Profile.route) {
-            ProfileScreen(onBack = onBack)
+            ProfileScreen(gitHubUserName = uiState.userName, onBack = onBack)
         }
         composable(Screen.Contributions.route) {
-            ContributionsScreen(onBack = onBack)
+            ContributionsScreen(gitHubUserName = uiState.userName, onBack = onBack)
         }
     }
 }
@@ -103,7 +124,8 @@ private fun onBackNavigation(): () -> Unit {
 
 @Composable
 fun MainScreen(
-    navController: NavHostController = rememberNavController()
+    navController: NavHostController = rememberNavController(),
+    gitHubUserNameViewModel: GitHubUserNameViewModel = hiltViewModel()
 ) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
@@ -130,7 +152,7 @@ fun MainScreen(
 
     Scaffold(
         bottomBar = {
-            if (currentDestination?.route != Screen.Splash.route) {
+            if (shouldShowBottomNavigation(currentDestination)) {
                 MainBottomNavigation(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -151,9 +173,19 @@ fun MainScreen(
         },
         containerColor = MaterialTheme.colorScheme.background
     ) { paddingValues ->
-        AppNavigation(Modifier.padding(paddingValues), navController, onBackNavigation())
+        AppNavigation(
+            Modifier.padding(paddingValues),
+            navController,
+            gitHubUserNameViewModel,
+            onBackNavigation()
+        )
     }
 }
+
+@Composable
+private fun shouldShowBottomNavigation(currentDestination: NavDestination?) =
+    currentDestination?.route != Screen.Splash.route &&
+            currentDestination?.route != Screen.UserName.route
 
 @Composable
 fun MainBottomNavigation(

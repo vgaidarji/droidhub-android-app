@@ -31,14 +31,11 @@ dependencies {
 
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.ui.android)
     implementation(libs.androidx.material)
-    implementation(libs.androidx.paging)
     implementation(libs.androidx.hilt.navigation.compose)
 
     implementation(libs.dagger)
-    implementation(libs.androidx.material3.android)
     implementation(libs.androidx.lifecycle.runtime.compose.android)
     implementation(libs.androidx.ui.tooling.preview.android)
     debugImplementation(libs.androidx.ui.tooling)

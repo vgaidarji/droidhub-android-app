@@ -50,6 +50,7 @@ dependencies {
     implementation(project(AppConfig.Modules.FEATURE_PROFILE))
     implementation(project(AppConfig.Modules.FEATURE_REPOSITORIES))
     implementation(project(AppConfig.Modules.FEATURE_CONTRIBUTIONS))
+    implementation(project(AppConfig.Modules.FEATURE_USER_NAME))
 
     implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.core.ktx)
@@ -67,6 +68,7 @@ dependencies {
     implementation(libs.androidx.material)
     implementation(libs.androidx.ui.tooling.preview.android)
     debugImplementation(libs.androidx.ui.tooling)
+    implementation(libs.androidx.hilt.navigation.compose)
 
     implementation(libs.timber)
 

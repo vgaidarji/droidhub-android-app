@@ -42,6 +42,7 @@ import com.vgaidarji.droidhub.base.ui.component.IconWithText
 import com.vgaidarji.droidhub.base.ui.component.ProgressView
 import com.vgaidarji.droidhub.base.ui.theme.DroidHubTheme
 import com.vgaidarji.droidhub.base.ui.theme.customColorsPalette
+import com.vgaidarji.droidhub.base.viewmodel.GitHubUserNameViewModel
 import com.vgaidarji.droidhub.model.GitHubUser
 import com.vgaidarji.droidhub.model.GitHubUserStatus
 import java.time.LocalDateTime
@@ -52,9 +53,12 @@ val contentWidth = 300.dp
 @Composable
 fun ProfileScreen(
     modifier: Modifier = Modifier,
-    profileViewModel: ProfileViewModel = hiltViewModel(),
+    gitHubUserName: String,
     onBack: () -> Unit
 ) {
+    val profileViewModel: ProfileViewModel = hiltViewModel<ProfileViewModel, ProfileViewModel.ProfileViewModelFactory> { factory ->
+        factory.create(gitHubUserName)
+    }
     val uiState by profileViewModel.uiState.collectAsStateWithLifecycle()
     BackHandler {
         onBack()

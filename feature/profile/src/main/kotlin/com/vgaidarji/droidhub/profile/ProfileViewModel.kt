@@ -5,22 +5,28 @@ import androidx.lifecycle.viewModelScope
 import com.vgaidarji.droidhub.model.GitHubUser
 import com.vgaidarji.droidhub.model.GitHubUserStatus
 import com.vgaidarji.droidhub.repository.GitHubUserRepository
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import javax.inject.Inject
 
-@HiltViewModel
-class ProfileViewModel @Inject constructor(
-    private val gitHubUserRepository: GitHubUserRepository
+@HiltViewModel(assistedFactory = ProfileViewModel.ProfileViewModelFactory::class)
+class ProfileViewModel @AssistedInject constructor(
+    private val gitHubUserRepository: GitHubUserRepository,
+    @Assisted private val gitHubUserName: String
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(ProfileUiState.NO_USER)
     val uiState: StateFlow<ProfileUiState> get() = _uiState
-    // TODO: parametrize to allow for loading arbitrary user's profile
-    val GITHUB_USER_NAME = "vgaidarji"
+
+    @AssistedFactory
+    interface ProfileViewModelFactory {
+        fun create(gitHubUserName: String): ProfileViewModel
+    }
 
     init {
         viewModelScope.launch {
@@ -29,7 +35,7 @@ class ProfileViewModel @Inject constructor(
             var user: GitHubUser = GitHubUser.NO_USER
             var userStatus: GitHubUserStatus = GitHubUserStatus.NO_USER_STATUS
             try {
-                fetchGitHubUserProfile().also {
+                fetchGitHubUserProfile(gitHubUserName).also {
                     user = it.first
                     userStatus = it.second
                 }
@@ -61,15 +67,15 @@ class ProfileViewModel @Inject constructor(
         )
     }
 
-    private suspend fun fetchGitHubUserProfile(): Pair<GitHubUser, GitHubUserStatus> {
+    private suspend fun fetchGitHubUserProfile(gitHubUserName: String): Pair<GitHubUser, GitHubUserStatus> {
         var gitHubUser: GitHubUser = GitHubUser.NO_USER
         var gitHubUserStatus: GitHubUserStatus = GitHubUserStatus.NO_USER_STATUS
         coroutineScope {
             launch {
-                gitHubUser = gitHubUserRepository.getUser(GITHUB_USER_NAME)
+                gitHubUser = gitHubUserRepository.getUser(gitHubUserName)
             }
             launch {
-                gitHubUserStatus = gitHubUserRepository.getUserStatus(GITHUB_USER_NAME)
+                gitHubUserStatus = gitHubUserRepository.getUserStatus(gitHubUserName)
             }
         }
         return Pair(gitHubUser, gitHubUserStatus)

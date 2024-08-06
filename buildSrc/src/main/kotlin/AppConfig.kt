@@ -23,6 +23,7 @@ class AppConfig {
             const val FEATURE_PROFILE = ":feature:profile"
             const val FEATURE_REPOSITORIES = ":feature:repositories"
             const val FEATURE_CONTRIBUTIONS = ":feature:contributions"
+            const val FEATURE_USER_NAME = ":feature:user-name"
         }
     }
 }

@@ -54,9 +54,12 @@ import com.vgaidarji.droidhub.base.R as RBase
 @Composable
 fun RepositoriesScreen(
     modifier: Modifier = Modifier,
-    repositoriesViewModel: RepositoriesViewModel = hiltViewModel(),
+    gitHubUserName: String,
     onBack: () -> Unit
 ) {
+    val repositoriesViewModel: RepositoriesViewModel = hiltViewModel<RepositoriesViewModel, RepositoriesViewModel.RepositoriesViewModelFactory> { factory ->
+        factory.create(gitHubUserName)
+    }
     val repositories = repositoriesViewModel.repositories.collectAsLazyPagingItems()
     BackHandler {
         onBack()
